@@ -262,7 +262,7 @@ body {
 
 /* Features Section */
 .features {
-    padding: 3rem 0;
+    padding: 1.5rem 0;
     background: transparent;
 }
 
@@ -353,7 +353,7 @@ body {
 
 /* Products Section */
 .products {
-    padding: 3rem 0;
+    padding: 1.5rem 0;
     background: transparent;
 }
 
@@ -413,7 +413,7 @@ body {
 
 /* Gallery Section */
 .gallery {
-    padding: 3rem 0;
+    padding: 1.5rem 0;
     background: transparent;
 }
 
@@ -602,7 +602,7 @@ body {
 
 /* About Section */
 .about {
-    padding: 3rem 0;
+    padding: 1.5rem 0;
     background: transparent;
 }
 
@@ -664,7 +664,7 @@ body {
 
 /* Contact Section */
 .contact {
-    padding: 3rem 0;
+    padding: 1.5rem 0;
     background: rgba(26, 26, 26, 0.7);
     color: var(--text-light);
 }
@@ -804,6 +804,43 @@ body {
     border-radius: 15px;
 }
 
+/* Reservation Section */
+.reservation {
+    padding: 1.5rem 0;
+    background: transparent;
+    color: var(--text-light);
+}
+
+.reservation .section-title {
+    color: var(--text-light);
+}
+
+.reservation-container {
+    margin-top: 3rem;
+    width: 50%;
+    height: 940px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.reservation-iframe {
+    width: 100%;
+    height: 940px;
+    border: none;
+    display: block;
+    overflow: hidden;
+}
+
+.reservation-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
 /* Footer */
 .footer {
     background: rgba(15, 15, 15, 0.8);
@@ -834,6 +871,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
+    margin-bottom: 0;
 }
 
 .footer-section ul li {
@@ -867,7 +905,7 @@ body {
 
 .footer-bottom {
     text-align: center;
-    padding-top: 2rem;
+    padding-top: 0;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.6);
 }
@@ -927,7 +965,7 @@ body {
     .gallery,
     .about,
     .contact {
-        padding: 4rem 0;
+        padding: 2rem 0;
     }
 
     .about-stats {
@@ -965,7 +1003,7 @@ body {
     .gallery,
     .about,
     .contact {
-        padding: 5rem 0;
+        padding: 2.5rem 0;
     }
 
     .features-grid {

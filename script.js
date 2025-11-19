@@ -184,22 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Reserve button popup functionality
 document.addEventListener('DOMContentLoaded', () => {
-    const reserveButton = document.getElementById('reserveButton');
-    if (reserveButton) {
-        reserveButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            const url = reserveButton.getAttribute('href');
-            const width = 800;
-            const height = 600;
-            const left = (screen.width - width) / 2;
-            const top = (screen.height - height) / 2;
-            
-            window.open(
-                url,
-                'Reserve',
-                `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no`
-            );
-        });
-    }
+    // Reserve button now uses smooth scroll to #reservation section (handled by the anchor link handler above)
 });
 
