@@ -684,35 +684,84 @@ body {
 .contact-info {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .contact-item {
     display: flex;
-    gap: 1.5rem;
+    gap: 1.575rem;
     align-items: flex-start;
+    transform: scale(1.05);
+    transform-origin: left center;
+    margin-bottom: 0.525rem;
 }
 
 .contact-icon {
-    font-size: 2rem;
+    font-size: 2.1rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .contact-icon-img {
-    width: 32px;
-    height: 32px;
+    width: 33.6px;
+    height: 33.6px;
     object-fit: contain;
 }
 
 .contact-item h3 {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.525rem;
     color: var(--text-light);
+    font-size: 1.05rem;
 }
 
 .contact-item p {
     color: rgba(255, 255, 255, 0.8);
+    font-size: 0.84rem;
+}
+
+.phone-number {
+    font-size: 1.26rem !important;
+}
+
+.email-address {
+    font-size: 1.26rem !important;
+}
+
+.address-text {
+    font-size: 1.26rem !important;
+}
+
+.contact-item-follow {
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-item-follow h3 {
+    font-size: 1.26rem !important;
+}
+
+.follow-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.follow-icons a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.follow-icon {
+    width: 48px !important;
+    height: 48px !important;
+    object-fit: contain;
+    flex-shrink: 0;
+    display: block;
 }
 
 .contact-form {
@@ -744,6 +793,17 @@ body {
     background: rgba(255, 255, 255, 0.15);
 }
 
+.embed-map-responsive {
+    border-radius: 15px;
+    overflow: hidden;
+    transform: scale(1.14);
+    transform-origin: center;
+}
+
+.embed-map-frame {
+    border-radius: 15px;
+}
+
 /* Footer */
 .footer {
     background: rgba(15, 15, 15, 0.8);
@@ -771,10 +831,14 @@ body {
 
 .footer-section ul {
     list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
 }
 
 .footer-section ul li {
-    margin-bottom: 0.5rem;
+    margin: 0;
+    padding: 0;
 }
 
 .footer-section a {
