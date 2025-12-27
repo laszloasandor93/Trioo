@@ -1,70 +1,85 @@
-# Vercel Analytics Setup
+# Vercel Web Analytics Setup
 
-## For Static HTML Sites
+## Static HTML Site Implementation
 
-Since this is a **static HTML site** (not Next.js), Vercel Analytics works differently:
+This project is a **static HTML site** deployed on Vercel. Vercel Web Analytics has been integrated to track visitor behavior and page views.
 
-### Automatic Setup (Recommended)
+## Implementation
 
-**Vercel Analytics is automatically enabled** when you deploy to Vercel. No code changes needed!
+### What was done
 
-1. Deploy your site to Vercel
-2. Go to your project dashboard
-3. Navigate to **Analytics** tab
-4. Enable **Web Analytics**
-
-That's it! Analytics will start tracking automatically.
-
-### Manual Setup (If Needed)
-
-If you want to explicitly add analytics tracking, you can use:
-
-#### Option 1: Vercel Web Analytics (Recommended for Static Sites)
-
-Add this before `</body>`:
+The Vercel Web Analytics tracking script has been added to the main `index.html` file:
 
 ```html
+<!-- Vercel Web Analytics -->
 <script>
-  (function() {
-    var script = document.createElement('script');
-    script.src = 'https://va.vercel-scripts.com/v1/script.js';
-    script.defer = true;
-    script.setAttribute('data-website-id', 'YOUR_WEBSITE_ID');
-    document.head.appendChild(script);
-  })();
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
 ```
 
-**Note:** You'll need to get your Website ID from Vercel dashboard → Analytics → Web Analytics
+This script:
+- Creates the `window.va` object to queue analytics events
+- Loads the Vercel insights script with the `defer` attribute for optimal performance
+- Automatically tracks page views and visitor interactions
 
-#### Option 2: Using @vercel/analytics Package
+### Prerequisites Met
 
-For static sites, you can load it via CDN:
+- ✅ Vercel account connected
+- ✅ Project deployed to Vercel
+- ✅ Vercel CLI available in project dependencies
 
-```html
-<script type="module">
-  import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics@latest/dist/analytics.js';
-  inject();
-</script>
-```
+### Enabling Web Analytics on Vercel Dashboard
 
-### Important Notes
+1. Go to your [Vercel Dashboard](https://vercel.com/dashboard)
+2. Select the TRIOOO project
+3. Click the **Analytics** tab
+4. Click **Enable** button in the dialog
+5. After the next deployment, analytics routes (`/_vercel/insights/*`) will be automatically created
 
-- **Next.js import won't work**: `import { Analytics } from "@vercel/analytics/next"` is only for Next.js apps
-- **Static sites**: Use the automatic Vercel Analytics or the script-based approach above
-- **No build step needed**: Analytics works automatically when deployed to Vercel
+### How It Works
 
-### Current Setup
+Once deployed to Vercel with Web Analytics enabled:
 
-The current HTML file has a placeholder comment. After deploying to Vercel:
-1. Enable Analytics in Vercel dashboard
-2. Analytics will work automatically
-3. No code changes needed!
+1. The tracking script automatically sends data about:
+   - Page views
+   - Visitor interactions
+   - Performance metrics
+   - Geographic location
+   - Device and browser information
 
-### Verify It's Working
+2. Data appears in the Vercel Dashboard under **Analytics** tab
 
-After deployment:
-1. Visit your deployed site
-2. Check Vercel dashboard → Analytics
-3. You should see page views and other metrics
+3. You can:
+   - View real-time visitor counts
+   - Monitor page views by URL
+   - Track bounce rates
+   - Analyze visitor trends
+   - Filter data by date range and other criteria
 
+### Verification
+
+After deployment, verify analytics is working:
+
+1. Visit your deployed site at https://triomures.vercel.app (or your custom domain)
+2. Open browser DevTools → Network tab
+3. Look for a request to `/_vercel/insights/view` - this confirms tracking is active
+4. Go to Vercel Dashboard → Analytics to see the data
+5. After 24 hours, you should see visitor metrics
+
+### Notes
+
+- **No additional code needed**: The analytics script automatically tracks all page views
+- **Route support**: When deployed to Vercel, the script can detect route changes
+- **Privacy**: Vercel Analytics respects user privacy and doesn't collect personally identifiable information (PII)
+- **Performance**: The tracking script is loaded asynchronously with `defer` attribute, so it doesn't block page rendering
+
+## Next Steps
+
+Once you have data in the dashboard, you can:
+- View detailed analytics in the Vercel Dashboard
+- Export data for further analysis
+- Monitor performance and user behavior
+- Optimize the site based on visitor insights
+
+For more information, see the [Vercel Web Analytics documentation](https://vercel.com/analytics).
