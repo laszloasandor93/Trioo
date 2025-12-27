@@ -1,0 +1,13 @@
+# Don't ignore pictures folder
+!pictures/
+!pictures/**
+
+# Ignore development files
+check-opening-*.js
+*.md
+.gitignore
+.git/
+.vscode/
+*.code-workspace
+texts/
+
