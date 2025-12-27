@@ -332,12 +332,11 @@
     </div>
 
     <script src="script.js"></script>
-    <!-- Vercel Analytics - Automatically enabled when deployed to Vercel -->
+    <!-- Vercel Web Analytics -->
     <script>
-        // Vercel Analytics is automatically injected when deployed to Vercel
-        // No additional code needed for static HTML sites
-        // Analytics will work automatically after deployment
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
 
