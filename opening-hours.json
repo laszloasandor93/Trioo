@@ -1,0 +1,59 @@
+{
+  "businessName": "Hookah Trio",
+  "location": "Târgu Mureș, Romania",
+  "regularHours": {
+    "monday": {
+      "open": "12:00",
+      "close": "02:00",
+      "note": "Closes at 2 AM next day"
+    },
+    "tuesday": {
+      "open": "12:00",
+      "close": "02:00",
+      "note": "Closes at 2 AM next day"
+    },
+    "wednesday": {
+      "open": "12:00",
+      "close": "02:00",
+      "note": "Closes at 2 AM next day"
+    },
+    "thursday": {
+      "open": "12:00",
+      "close": "02:00",
+      "note": "Closes at 2 AM next day"
+    },
+    "friday": {
+      "open": "12:00",
+      "close": "03:00",
+      "note": "Closes at 3 AM next day"
+    },
+    "saturday": {
+      "open": "12:00",
+      "close": "03:00",
+      "note": "Closes at 3 AM next day"
+    },
+    "sunday": {
+      "open": "12:00",
+      "close": "02:00",
+      "note": "Closes at 2 AM next day"
+    }
+  },
+  "specialHours": {
+    "2025-01-01": {
+      "open": null,
+      "close": null,
+      "note": "New Year - Closed"
+    },
+    "2025-12-25": {
+      "open": null,
+      "close": null,
+      "note": "Christmas - Closed"
+    }
+  },
+  "timezone": "Europe/Bucharest",
+  "lastUpdated": "2025-01-27"
+}
+
+
+
+

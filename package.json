@@ -1,0 +1,16 @@
+{
+  "name": "triooo-hookah-website",
+  "version": "1.0.0",
+  "description": "TRIOOO Hookah website - Static HTML site",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'",
+    "start": "echo 'Static site - serve index.html'"
+  },
+  "keywords": [
+    "hookah",
+    "static-site"
+  ],
+  "author": "",
+  "license": "ISC"
+}
+

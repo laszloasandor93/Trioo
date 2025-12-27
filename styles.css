@@ -793,14 +793,14 @@ body {
     background: rgba(255, 255, 255, 0.15);
 }
 
-.embed-map-responsive {
+.mapouter {
     border-radius: 15px;
     overflow: hidden;
     transform: scale(1.14);
     transform-origin: center;
 }
 
-.embed-map-frame {
+.gmap_canvas iframe {
     border-radius: 15px;
 }
 
