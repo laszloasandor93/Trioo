@@ -30,8 +30,9 @@ body {
     background-image: url('pictures/home.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: scroll;
     background-repeat: no-repeat;
+    will-change: transform;
 }
 
 .container {
@@ -48,6 +49,9 @@ body {
     width: 100%;
     background: rgba(26, 26, 26, 0.3);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transform: translateZ(0);
+    will-change: transform;
     z-index: 1000;
     padding: 0.5rem 0;
     transition: var(--transition);
@@ -70,6 +74,9 @@ body {
     background: rgba(34, 197, 94, 0.9);
     border-radius: 20px;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transform: translateZ(0);
+    will-change: transform;
     font-weight: 700;
 }
 
