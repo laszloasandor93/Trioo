@@ -2,30 +2,9 @@
 let supabaseClient = null;
 
 function initializeSupabase() {
-    console.log('[DEBUG] Initializing Supabase client...');
-    console.log('[DEBUG] supabase available:', typeof supabase !== 'undefined');
-    console.log('[DEBUG] SUPABASE_CONFIG available:', typeof SUPABASE_CONFIG !== 'undefined');
-    
-    if (typeof SUPABASE_CONFIG !== 'undefined') {
-        console.log('[DEBUG] SUPABASE_CONFIG.url:', SUPABASE_CONFIG.url);
-        console.log('[DEBUG] SUPABASE_CONFIG.anonKey:', SUPABASE_CONFIG.anonKey ? 'Present' : 'Missing');
-        console.log('[DEBUG] SUPABASE_CONFIG.openingHoursTable:', SUPABASE_CONFIG.openingHoursTable);
-    }
-    
     if (typeof supabase !== 'undefined' && SUPABASE_CONFIG && SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey) {
         if (SUPABASE_CONFIG.url !== 'YOUR_SUPABASE_URL' && SUPABASE_CONFIG.anonKey !== 'YOUR_SUPABASE_ANON_KEY') {
             supabaseClient = supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
-            console.log('[DEBUG] Supabase client initialized successfully');
-        } else {
-            console.warn('[DEBUG] Supabase credentials not configured (using placeholder values)');
-        }
-    } else {
-        console.error('[DEBUG] Failed to initialize Supabase client');
-        console.error('[DEBUG] - supabase available:', typeof supabase !== 'undefined');
-        console.error('[DEBUG] - SUPABASE_CONFIG available:', typeof SUPABASE_CONFIG !== 'undefined');
-        if (typeof SUPABASE_CONFIG !== 'undefined') {
-            console.error('[DEBUG] - url present:', !!SUPABASE_CONFIG.url);
-            console.error('[DEBUG] - anonKey present:', !!SUPABASE_CONFIG.anonKey);
         }
     }
 }
@@ -35,147 +14,189 @@ if (typeof supabase !== 'undefined' && typeof SUPABASE_CONFIG !== 'undefined') {
     initializeSupabase();
 }
 
-// Fetch and display opening hours
-async function loadOpeningHours() {
-    console.log('[DEBUG] ===== loadOpeningHours() called =====');
+// Convert time string (HH:MM) to minutes since midnight for comparison
+function timeToMinutes(timeStr) {
+    if (!timeStr) return 0;
+    const time = formatTime(timeStr);
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
+}
+
+// Check if current time is between opening and closing time
+function isCurrentlyOpen(openingTime, closingTime) {
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    const openingMinutes = timeToMinutes(openingTime);
+    const closingMinutes = timeToMinutes(closingTime);
     
-    const openingHoursElement = document.getElementById('openingHoursTime');
-    if (!openingHoursElement) {
-        console.error('[DEBUG] Opening hours element not found!');
+    // Handle case where closing time is next day (e.g., 02:00)
+    if (closingMinutes < openingMinutes) {
+        // Closing time is next day, so we're open if current time is >= opening OR < closing
+        return currentMinutes >= openingMinutes || currentMinutes < closingMinutes;
+    } else {
+        // Normal case: opening and closing on same day
+        return currentMinutes >= openingMinutes && currentMinutes < closingMinutes;
+    }
+}
+
+// Display all opening hours in the popup
+function displayAllOpeningHours(allData) {
+    const popupHoursContainer = document.getElementById('closedPopupHours');
+    if (!popupHoursContainer) {
         return;
     }
-    console.log('[DEBUG] Opening hours element found');
+    
+    // Always clear the loading message
+    if (!allData || allData.length === 0) {
+        popupHoursContainer.innerHTML = '<div class="no-hours">No hours available</div>';
+        return;
+    }
+
+    // Define day order
+    const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    
+    // Sort data by day order
+    const sortedData = dayOrder.map(day => 
+        allData.find(record => record.day && record.day.toLowerCase() === day.toLowerCase())
+    ).filter(Boolean);
+
+    // If some days are missing, add the rest
+    allData.forEach(record => {
+        if (!sortedData.find(r => r.day && r.day.toLowerCase() === record.day.toLowerCase())) {
+            sortedData.push(record);
+        }
+    });
+
+    let html = '<div class="hours-list">';
+    sortedData.forEach(record => {
+        const openingTime = formatTime(record.opening_time);
+        const closingTime = formatTime(record.closing_time);
+        html += `<div class="hours-item">
+            <span class="hours-day">${record.day}</span>
+            <span class="hours-time">${openingTime} - ${closingTime}</span>
+        </div>`;
+    });
+    html += '</div>';
+    
+    popupHoursContainer.innerHTML = html;
+}
+
+// Fetch and display opening hours for current day
+async function loadOpeningHours() {
+    const openingHoursElement = document.getElementById('openingHoursTime');
+    const openingHoursContainer = document.getElementById('openingHours');
+    if (!openingHoursElement || !openingHoursContainer) return;
 
     // Get current day name (Monday, Tuesday, etc.)
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const today = new Date();
     const currentDay = days[today.getDay()];
-    console.log('[DEBUG] Current day:', currentDay);
-    console.log('[DEBUG] Today object:', today);
-    console.log('[DEBUG] Day index:', today.getDay());
 
     try {
         // Re-initialize Supabase if needed
         if (!supabaseClient && typeof supabase !== 'undefined' && typeof SUPABASE_CONFIG !== 'undefined') {
-            console.log('[DEBUG] Re-initializing Supabase client...');
             initializeSupabase();
         }
 
         if (!supabaseClient) {
-            console.error('[DEBUG] Supabase client is null');
-            openingHoursElement.textContent = 'Not configured';
+            openingHoursContainer.style.display = 'none';
             return;
         }
-        console.log('[DEBUG] Supabase client is available');
 
         if (!SUPABASE_CONFIG) {
-            console.error('[DEBUG] SUPABASE_CONFIG is not defined');
-            openingHoursElement.textContent = 'Config missing';
+            openingHoursContainer.style.display = 'none';
             return;
         }
         
-        const tableName = SUPABASE_CONFIG.openingHoursTable ? SUPABASE_CONFIG.openingHoursTable.trim() : '';
+        // Get table name with fallback
+        let tableName = SUPABASE_CONFIG.openingHoursTable ? SUPABASE_CONFIG.openingHoursTable.trim() : '';
+        
+        // Fallback if undefined
+        if (!tableName) {
+            tableName = 'opening_hours'; // Default table name
+        }
         
         if (!tableName) {
-            console.error('[DEBUG] Opening hours table not configured');
-            console.error('[DEBUG] Table value:', SUPABASE_CONFIG.openingHoursTable);
-            console.error('[DEBUG] Table type:', typeof SUPABASE_CONFIG.openingHoursTable);
-            openingHoursElement.textContent = 'Table not configured';
+            openingHoursContainer.style.display = 'none';
             return;
         }
-        
-        console.log('[DEBUG] Table name:', tableName);
-        console.log('[DEBUG] Table name length:', tableName.length);
 
-        // First, fetch all records to see what's in the database
-        console.log('[DEBUG] Fetching all records from database to check available days...');
-        const { data: allData, error: allError } = await supabaseClient
+        // Fetch all records to check for case-insensitive match if needed
+        const { data: allData, error: allDataError } = await supabaseClient
             .from(tableName)
             .select('*')
             .order('day');
         
-        if (allError) {
-            console.error('[DEBUG] Error fetching all records:', allError);
-        } else {
-            console.log('[DEBUG] All records in database:', allData);
-            console.log('[DEBUG] Total records found:', allData ? allData.length : 0);
-            if (allData && allData.length > 0) {
-                console.log('[DEBUG] Available days in database:');
-                allData.forEach(record => {
-                    console.log('[DEBUG]   - Day:', record.day, '| Opening:', record.opening_time, '| Closing:', record.closing_time);
-                });
-            }
+        // If there's an error fetching all data, log it but continue
+        if (allDataError) {
+            console.error('Error fetching all opening hours:', allDataError);
         }
-
-        // Fetch opening hours for current day
-        console.log('[DEBUG] Fetching opening hours for current day:', currentDay);
-        console.log('[DEBUG] Query: from(' + tableName + ').select(opening_time, closing_time).eq(day, ' + currentDay + ').single()');
         
+        // Ensure we always have an array to pass to displayAllOpeningHours
+        const hoursData = allData || [];
+
+        // Fetch opening hours for current day - get the whole record
         const { data, error } = await supabaseClient
             .from(tableName)
-            .select('opening_time, closing_time, day')
+            .select('*')
             .eq('day', currentDay)
             .single();
 
-        console.log('[DEBUG] Query response received');
-        console.log('[DEBUG] Data:', data);
-        console.log('[DEBUG] Error:', error);
-
+        let dayData = null;
+        
         if (error) {
-            console.error('[DEBUG] Error fetching opening hours:', error);
-            console.error('[DEBUG] Error code:', error.code);
-            console.error('[DEBUG] Error message:', error.message);
-            console.error('[DEBUG] Error details:', error.details);
-            console.error('[DEBUG] Error hint:', error.hint);
-            openingHoursElement.textContent = 'Error: ' + error.message;
-            return;
-        }
-
-        if (data) {
-            console.log('[DEBUG] Data received successfully for current day');
-            console.log('[DEBUG] Full data object:', data);
-            console.log('[DEBUG] Day in data:', data.day);
-            console.log('[DEBUG] Opening time:', data.opening_time, 'Type:', typeof data.opening_time);
-            console.log('[DEBUG] Closing time:', data.closing_time, 'Type:', typeof data.closing_time);
-            
-            // Format the time display
-            const openingTime = formatTime(data.opening_time);
-            const closingTime = formatTime(data.closing_time);
-            console.log('[DEBUG] Formatted opening time:', openingTime);
-            console.log('[DEBUG] Formatted closing time:', closingTime);
-            
-            const displayText = `${openingTime} - ${closingTime}`;
-            console.log('[DEBUG] Display text:', displayText);
-            openingHoursElement.textContent = displayText;
-        } else {
-            console.warn('[DEBUG] No data returned for current day:', currentDay);
-            console.warn('[DEBUG] This means no record exists in the database for:', currentDay);
-            
-            // Try to find similar day names (case-insensitive)
+            // Try case-insensitive match if exact match fails
             if (allData && allData.length > 0) {
                 const similarDay = allData.find(record => 
                     record.day && record.day.toLowerCase() === currentDay.toLowerCase()
                 );
                 if (similarDay) {
-                    console.log('[DEBUG] Found similar day with different case:', similarDay.day);
-                    console.log('[DEBUG] Using that data instead');
-                    const openingTime = formatTime(similarDay.opening_time);
-                    const closingTime = formatTime(similarDay.closing_time);
-                    openingHoursElement.textContent = `${openingTime} - ${closingTime}`;
-                } else {
-                    openingHoursElement.textContent = 'Closed';
+                    dayData = similarDay;
                 }
-            } else {
-                openingHoursElement.textContent = 'Closed';
+            }
+        } else if (data) {
+            dayData = data;
+        }
+
+        // Display all opening hours in popup (always call this)
+        // This ensures the loading message is replaced
+        displayAllOpeningHours(hoursData);
+
+        if (!dayData) {
+            openingHoursContainer.style.display = 'none';
+            const closedPopup = document.getElementById('closedPopup');
+            if (closedPopup) {
+                closedPopup.style.display = 'flex';
+            }
+            return;
+        }
+
+        // Only show/hide after data is successfully fetched
+        // Check if currently open
+        const closedPopup = document.getElementById('closedPopup');
+        if (isCurrentlyOpen(dayData.opening_time, dayData.closing_time)) {
+            const closingTime = formatTime(dayData.closing_time);
+            openingHoursElement.textContent = closingTime;
+            // Only show after data is fetched
+            openingHoursContainer.style.display = 'flex';
+            if (closedPopup) {
+                closedPopup.style.display = 'none';
+            }
+        } else {
+            // Hide the box when closed
+            openingHoursContainer.style.display = 'none';
+            if (closedPopup) {
+                closedPopup.style.display = 'flex';
             }
         }
     } catch (error) {
-        console.error('[DEBUG] Exception caught:', error);
-        console.error('[DEBUG] Error stack:', error.stack);
-        openingHoursElement.textContent = 'Error: ' + error.message;
+        // Hide box on error
+        openingHoursContainer.style.display = 'none';
+        const closedPopup = document.getElementById('closedPopup');
+        if (closedPopup) {
+            closedPopup.style.display = 'flex';
+        }
     }
-    
-    console.log('[DEBUG] ===== loadOpeningHours() completed =====');
 }
 
 // Format time from database (handles various formats)
@@ -206,24 +227,15 @@ function formatTime(time) {
 
 // Load opening hours when page loads
 function waitForConfigAndLoad() {
-    console.log('[DEBUG] Checking for config and Supabase...');
-    console.log('[DEBUG] - supabase:', typeof supabase !== 'undefined');
-    console.log('[DEBUG] - SUPABASE_CONFIG:', typeof SUPABASE_CONFIG !== 'undefined');
-    
     if (typeof supabase === 'undefined') {
-        console.log('[DEBUG] Supabase not loaded yet, waiting...');
         setTimeout(waitForConfigAndLoad, 100);
         return;
     }
     
     if (typeof SUPABASE_CONFIG === 'undefined') {
-        console.log('[DEBUG] SUPABASE_CONFIG not loaded yet, waiting...');
         setTimeout(waitForConfigAndLoad, 100);
         return;
     }
-    
-    console.log('[DEBUG] Both Supabase and config are available!');
-    console.log('[DEBUG] SUPABASE_CONFIG:', SUPABASE_CONFIG);
     
     // Initialize Supabase client
     if (!supabaseClient) {
@@ -234,10 +246,44 @@ function waitForConfigAndLoad() {
     loadOpeningHours();
 }
 
+// Close popup function
+function closeClosedPopup() {
+    const closedPopup = document.getElementById('closedPopup');
+    if (closedPopup) {
+        closedPopup.style.display = 'none';
+    }
+}
+
 // Start when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('[DEBUG] DOMContentLoaded event fired');
     waitForConfigAndLoad();
+    
+    // Add close button functionality
+    const closeButton = document.getElementById('closedPopupClose');
+    if (closeButton) {
+        closeButton.addEventListener('click', closeClosedPopup);
+    }
+    
+    // Close popup when clicking outside the content
+    const closedPopup = document.getElementById('closedPopup');
+    if (closedPopup) {
+        closedPopup.addEventListener('click', (e) => {
+            // Only close if clicking the backdrop, not the content
+            if (e.target === closedPopup) {
+                closeClosedPopup();
+            }
+        });
+    }
+    
+    // Close popup with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const closedPopup = document.getElementById('closedPopup');
+            if (closedPopup && closedPopup.style.display === 'flex') {
+                closeClosedPopup();
+            }
+        }
+    });
 });
 
 // Mobile Navigation Toggle
