@@ -49,7 +49,7 @@ body {
     background: rgba(26, 26, 26, 0.3);
     backdrop-filter: blur(10px);
     z-index: 1000;
-    padding: 1rem 0;
+    padding: 0.5rem 0;
     transition: var(--transition);
 }
 
@@ -63,17 +63,24 @@ body {
 .opening-hours-display {
     display: none;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     color: black;
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
     background: rgba(34, 197, 94, 0.9);
     border-radius: 20px;
     backdrop-filter: blur(10px);
+    font-weight: 700;
+}
+
+.opening-hours-date {
+    font-weight: 700;
+    color: black;
+    margin-right: 0.2rem;
 }
 
 .opening-hours-label {
-    font-weight: 600;
+    font-weight: 700;
     color: black;
 }
 
@@ -83,7 +90,7 @@ body {
 }
 
 .logo-img {
-    height: 50px;
+    height: 40px;
     width: auto;
     max-width: 200px;
     object-fit: contain;
@@ -106,6 +113,8 @@ body {
     font-weight: 400;
     transition: var(--transition);
     position: relative;
+    font-size: 0.9rem;
+    padding: 0.3rem 0;
 }
 
 .nav-menu a::after {
@@ -205,6 +214,44 @@ body {
 .hero-buttons .btn {
     min-width: 150px;
     flex: 0 0 auto;
+}
+
+.hero-social-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.hero-social-icons a {
+    display: inline-block;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    flex-shrink: 0;
+}
+
+.hero-social-icons a {
+    display: inline-block;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hero-social-icons a:hover {
+    transform: translateY(-5px);
+    opacity: 0.8;
+}
+
+.hero-social-icons .follow-icon {
+    width: 32px !important;
+    height: 32px !important;
+    object-fit: contain !important;
+    display: block !important;
+    filter: none !important;
+    opacity: 1 !important;
+    background: transparent !important;
+    -webkit-filter: none !important;
 }
 
 .scroll-indicator {

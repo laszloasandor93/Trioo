@@ -195,6 +195,19 @@ async function loadOpeningHours() {
         if (isCurrentlyOpen(dayData.opening_time, dayData.closing_time)) {
             const closingTime = formatTime(dayData.closing_time);
             openingHoursElement.textContent = closingTime;
+            
+            // Update date display
+            const openingHoursDateElement = document.getElementById('openingHoursDate');
+            if (openingHoursDateElement) {
+                const today = new Date();
+                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                const currentDayName = days[today.getDay()];
+                const monthName = months[today.getMonth()];
+                const day = today.getDate();
+                openingHoursDateElement.textContent = `${currentDayName}, ${monthName} ${day} | `;
+            }
+            
             // Only show after data is fetched
             openingHoursContainer.style.display = 'flex';
             if (closedPopup) {
