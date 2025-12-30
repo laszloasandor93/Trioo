@@ -19,6 +19,10 @@
                 <span></span>
                 <span></span>
             </button>
+            <div class="opening-hours-display" id="openingHours">
+                <span class="opening-hours-label">Today:</span>
+                <span class="opening-hours-time" id="openingHoursTime">Loading...</span>
+            </div>
             <ul class="nav-menu">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#products">Products</a></li>
@@ -331,12 +335,24 @@
         <img class="gallery-modal-content" id="galleryModalImg" src="" alt="Gallery Image">
     </div>
 
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Config -->
+    <script src="config.js"></script>
+    <!-- Debug Script (remove in production) -->
+    <script src="debug-opening-hours.js"></script>
     <script src="script.js"></script>
-    <!-- Vercel Web Analytics -->
+    <!-- Vercel Web Analytics (only loads in production) -->
     <script>
-        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        // Only load Vercel analytics when deployed on Vercel
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+            const script = document.createElement('script');
+            script.defer = true;
+            script.src = '/_vercel/insights/script.js';
+            document.head.appendChild(script);
+        }
     </script>
-    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
 

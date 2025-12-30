@@ -4,7 +4,8 @@
   "description": "TRIOOO Hookah website - Static HTML site",
   "scripts": {
     "build": "echo 'Static site - no build needed'",
-    "start": "echo 'Static site - serve index.html'"
+    "start": "npx http-server . -p 8080 -o",
+    "serve": "npx http-server . -p 8080"
   },
   "keywords": [
     "hookah",
@@ -13,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vercel/analytics": "^1.6.1"
+    "@vercel/analytics": "^1.6.1",
+    "@supabase/supabase-js": "^2.39.0"
   }
 }

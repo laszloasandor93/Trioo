@@ -2,26 +2,29 @@
 node_modules/
 package-lock.json
 
-# Environment variables
+# Config files with sensitive data
+config.js
+
+# Environment files
 .env
 .env.local
+.env.*.local
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Build outputs
-dist/
-build/
-.next/
-
 # Logs
 *.log
 npm-debug.log*
 
+# Build outputs
+dist/
+build/
