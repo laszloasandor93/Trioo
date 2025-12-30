@@ -194,7 +194,7 @@ async function loadOpeningHours() {
         // Check if currently open
         if (isCurrentlyOpen(dayData.opening_time, dayData.closing_time)) {
             const closingTime = formatTime(dayData.closing_time);
-            openingHoursElement.textContent = closingTime;
+            openingHoursElement.textContent = `${closingTime} | `;
             
             // Update date display
             const openingHoursDateElement = document.getElementById('openingHoursDate');
@@ -205,7 +205,7 @@ async function loadOpeningHours() {
                 const currentDayName = days[today.getDay()];
                 const monthName = months[today.getMonth()];
                 const day = today.getDate();
-                openingHoursDateElement.textContent = `${currentDayName}, ${monthName} ${day} | `;
+                openingHoursDateElement.textContent = `${currentDayName}, ${monthName} ${day}`;
             }
             
             // Only show after data is fetched
