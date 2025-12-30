@@ -64,7 +64,7 @@ body {
     display: none;
     align-items: center;
     gap: 0.5rem;
-    color: var(--text-light);
+    color: black;
     font-size: 0.9rem;
     padding: 0.5rem 1rem;
     background: rgba(34, 197, 94, 0.9);
@@ -74,12 +74,12 @@ body {
 
 .opening-hours-label {
     font-weight: 600;
-    opacity: 0.9;
+    color: black;
 }
 
 .opening-hours-time {
     font-weight: 700;
-    color: white;
+    color: black;
 }
 
 .logo-img {
@@ -1207,6 +1207,16 @@ body {
     padding: 1rem;
 }
 
+.closed-popup-contact {
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -1308,6 +1318,12 @@ body {
     
     .hours-time {
         font-size: 0.7rem;
+    }
+    
+    .closed-popup-contact {
+        font-size: 0.85rem;
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
     }
     
     .closed-popup-close {
