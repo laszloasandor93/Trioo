@@ -205,25 +205,39 @@ function formatTime(time) {
 }
 
 // Load opening hours when page loads
+function waitForConfigAndLoad() {
+    console.log('[DEBUG] Checking for config and Supabase...');
+    console.log('[DEBUG] - supabase:', typeof supabase !== 'undefined');
+    console.log('[DEBUG] - SUPABASE_CONFIG:', typeof SUPABASE_CONFIG !== 'undefined');
+    
+    if (typeof supabase === 'undefined') {
+        console.log('[DEBUG] Supabase not loaded yet, waiting...');
+        setTimeout(waitForConfigAndLoad, 100);
+        return;
+    }
+    
+    if (typeof SUPABASE_CONFIG === 'undefined') {
+        console.log('[DEBUG] SUPABASE_CONFIG not loaded yet, waiting...');
+        setTimeout(waitForConfigAndLoad, 100);
+        return;
+    }
+    
+    console.log('[DEBUG] Both Supabase and config are available!');
+    console.log('[DEBUG] SUPABASE_CONFIG:', SUPABASE_CONFIG);
+    
+    // Initialize Supabase client
+    if (!supabaseClient) {
+        initializeSupabase();
+    }
+    
+    // Load opening hours
+    loadOpeningHours();
+}
+
+// Start when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     console.log('[DEBUG] DOMContentLoaded event fired');
-    console.log('[DEBUG] Waiting for Supabase to be available...');
-    
-    // Wait a bit for Supabase to load if it hasn't yet
-    setTimeout(() => {
-        if (typeof supabase === 'undefined' || typeof SUPABASE_CONFIG === 'undefined') {
-            console.error('[DEBUG] Supabase or config still not available after delay');
-            const openingHoursElement = document.getElementById('openingHoursTime');
-            if (openingHoursElement) {
-                openingHoursElement.textContent = 'Config missing';
-            }
-        } else {
-            if (!supabaseClient) {
-                initializeSupabase();
-            }
-            loadOpeningHours();
-        }
-    }, 100);
+    waitForConfigAndLoad();
 });
 
 // Mobile Navigation Toggle
