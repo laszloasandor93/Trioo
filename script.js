@@ -85,6 +85,8 @@ function displayAllOpeningHours(allData) {
 async function loadOpeningHours() {
     const openingHoursElement = document.getElementById('openingHoursTime');
     const openingHoursContainer = document.getElementById('openingHours');
+    const closedPopup = document.getElementById('closedPopup');
+    
     if (!openingHoursElement || !openingHoursContainer) return;
 
     // Get current day name (Monday, Tuesday, etc.)
@@ -98,13 +100,26 @@ async function loadOpeningHours() {
             initializeSupabase();
         }
 
+        // Ensure popup is hidden initially (will be shown if needed after data fetch)
+        if (closedPopup) {
+            closedPopup.style.display = 'none';
+        }
+        
         if (!supabaseClient) {
             openingHoursContainer.style.display = 'none';
+            // Show popup if Supabase is not available
+            if (closedPopup) {
+                closedPopup.style.display = 'flex';
+            }
             return;
         }
 
         if (!SUPABASE_CONFIG) {
             openingHoursContainer.style.display = 'none';
+            // Show popup if config is not available
+            if (closedPopup) {
+                closedPopup.style.display = 'flex';
+            }
             return;
         }
         
@@ -118,6 +133,10 @@ async function loadOpeningHours() {
         
         if (!tableName) {
             openingHoursContainer.style.display = 'none';
+            // Show popup if table name is not configured
+            if (closedPopup) {
+                closedPopup.style.display = 'flex';
+            }
             return;
         }
 
@@ -162,9 +181,9 @@ async function loadOpeningHours() {
         // This ensures the loading message is replaced
         displayAllOpeningHours(hoursData);
 
+        // Get popup element once (already defined earlier in function)
         if (!dayData) {
             openingHoursContainer.style.display = 'none';
-            const closedPopup = document.getElementById('closedPopup');
             if (closedPopup) {
                 closedPopup.style.display = 'flex';
             }
@@ -173,7 +192,6 @@ async function loadOpeningHours() {
 
         // Only show/hide after data is successfully fetched
         // Check if currently open
-        const closedPopup = document.getElementById('closedPopup');
         if (isCurrentlyOpen(dayData.opening_time, dayData.closing_time)) {
             const closingTime = formatTime(dayData.closing_time);
             openingHoursElement.textContent = closingTime;
@@ -183,16 +201,15 @@ async function loadOpeningHours() {
                 closedPopup.style.display = 'none';
             }
         } else {
-            // Hide the box when closed
+            // Hide the box when closed and show popup
             openingHoursContainer.style.display = 'none';
             if (closedPopup) {
                 closedPopup.style.display = 'flex';
             }
         }
     } catch (error) {
-        // Hide box on error
+        // Hide box on error and show popup
         openingHoursContainer.style.display = 'none';
-        const closedPopup = document.getElementById('closedPopup');
         if (closedPopup) {
             closedPopup.style.display = 'flex';
         }
