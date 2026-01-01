@@ -531,6 +531,8 @@ body {
 .gallery-item img {
     cursor: pointer;
     pointer-events: auto;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-speed;
 }
 
 .gallery-item img {
@@ -538,7 +540,8 @@ body {
     height: 100%;
     object-fit: cover;
     transition: var(--transition);
-    image-rendering: auto;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-speed;
     transform: translateZ(0);
     will-change: transform;
     max-width: 100%;
@@ -602,6 +605,8 @@ body {
     border-radius: 10px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     animation: zoomIn 0.3s ease;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-speed;
 }
 
 .gallery-modal-close {
