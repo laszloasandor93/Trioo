@@ -1,0 +1,232 @@
+// Translations for TRIOOO Hookah website
+const translations = {
+    en: {
+        // Navigation
+        nav: {
+            home: "Home",
+            products: "Products",
+            gallery: "Gallery",
+            about: "About",
+            contact: "Contact"
+        },
+        // Hero Section
+        hero: {
+            title: "Best Hookah Experience",
+            subtitle: "Discover the art of Hookah",
+            reserve: "Reserve",
+            contactUs: "Contact Us"
+        },
+        // Features
+        features: {
+            premium: "Premium Quality",
+            elegant: "Elegant Design",
+            service: "High Quality Service"
+        },
+        // Products
+        products: {
+            title: "Our Hookah Categories",
+            exclusive: "Exclusive Hookah",
+            exclusiveDesc: "Only blonde flavours",
+            darkMix: "Dark MIX Hookah",
+            darkMixDesc: "Dark + Blonde flavours",
+            luxury: "Luxury Hookah",
+            luxuryDesc: "Only Dark flavours"
+        },
+        // Gallery
+        gallery: {
+            title: "Gallery",
+            subtitle: "Experience the beauty of TRIOOO hookah",
+            view: "View"
+        },
+        // About
+        about: {
+            title: "About TRIOOO hookah",
+            text1: "TRIOOO (originally known as Hookah Trio) has been a popular hookah bar in Târgu Mureș since 2021, offering special hookah flavors and refreshing drinks. We provide high-quality service and a pleasant environment where our guests can relax and enjoy the unique hookah experience.",
+            text2: "Through our Instagram and Facebook pages, we share our latest promotions, new flavors, and events that attract the local smoking community. Follow us too!",
+            happyCustomers: "Happy Customers",
+            premiumFlavours: "Premium Flavours",
+            yearsExperience: "Years Experience"
+        },
+        // Reservation
+        reservation: {
+            title: "Reservation",
+            poweredBy: "Powered by - meniudigital.ro"
+        },
+        // Contact
+        contact: {
+            title: "Get In Touch",
+            phone: "Phone",
+            email: "Email",
+            address: "Address",
+            followUs: "Follow Us"
+        },
+        // Footer
+        footer: {
+            tagline: "Premium hookah experience since 2021",
+            quickLinks: "Quick Links"
+        },
+        // Opening Hours
+        openingHours: {
+            openTill: "Open till:"
+        },
+        // Closed Popup
+        closedPopup: {
+            sorry: "Sorry!",
+            closed: "We are closed.",
+            contactUs: "Contact us: +40 733 456 654"
+        }
+    },
+    ro: {
+        // Navigation
+        nav: {
+            home: "Acasă",
+            products: "Produse",
+            gallery: "Galerie",
+            about: "Despre",
+            contact: "Contact"
+        },
+        // Hero Section
+        hero: {
+            title: "Cea mai bună experiență de narghilea",
+            subtitle: "Descoperă arta narghilei",
+            reserve: "Rezervă",
+            contactUs: "Contactează-ne"
+        },
+        // Features
+        features: {
+            premium: "Calitate Premium",
+            elegant: "Design Elegant",
+            service: "Servicii de Calitate"
+        },
+        // Products
+        products: {
+            title: "Categoriile noastre de narghilea",
+            exclusive: "Narghilea Exclusivă",
+            exclusiveDesc: "Doar arome blonde",
+            darkMix: "Narghilea Dark MIX",
+            darkMixDesc: "Arome Dark + Blonde",
+            luxury: "Narghilea Luxury",
+            luxuryDesc: "Doar arome Dark"
+        },
+        // Gallery
+        gallery: {
+            title: "Galerie",
+            subtitle: "Experimentează frumusețea narghilei TRIOOO",
+            view: "Vizualizează"
+        },
+        // About
+        about: {
+            title: "Despre TRIOOO hookah",
+            text1: "TRIOOO (cunoscut anterior ca Hookah Trio) este un bar de narghilea popular în Târgu Mureș din 2021, oferind arome speciale de narghilea și băuturi răcoritoare. Oferim servicii de înaltă calitate și un mediu plăcut unde oaspeții noștri se pot relaxa și bucura de experiența unică de narghilea.",
+            text2: "Prin paginile noastre de Instagram și Facebook, împărtășim ultimele noastre promoții, arome noi și evenimente care atrag comunitatea locală de fumat. Urmărește-ne și tu!",
+            happyCustomers: "Clienți Mulțumiți",
+            premiumFlavours: "Arome Premium",
+            yearsExperience: "Ani de Experiență"
+        },
+        // Reservation
+        reservation: {
+            title: "Rezervare",
+            poweredBy: "Powered by - meniudigital.ro"
+        },
+        // Contact
+        contact: {
+            title: "Contactează-ne",
+            phone: "Telefon",
+            email: "Email",
+            address: "Adresă",
+            followUs: "Urmărește-ne"
+        },
+        // Footer
+        footer: {
+            tagline: "Experiență premium de narghilea din 2021",
+            quickLinks: "Link-uri Rapide"
+        },
+        // Opening Hours
+        openingHours: {
+            openTill: "Deschis până la:"
+        },
+        // Closed Popup
+        closedPopup: {
+            sorry: "Ne pare rău!",
+            closed: "Suntem închisi.",
+            contactUs: "Contactează-ne: +40 733 456 654"
+        }
+    },
+    hu: {
+        // Navigation
+        nav: {
+            home: "Kezdőlap",
+            products: "Termékek",
+            gallery: "Galéria",
+            about: "Rólunk",
+            contact: "Kapcsolat"
+        },
+        // Hero Section
+        hero: {
+            title: "Legjobb Nargila Élmény",
+            subtitle: "Fedezd fel a nargila művészetét",
+            reserve: "Foglalás",
+            contactUs: "Lépj kapcsolatba"
+        },
+        // Features
+        features: {
+            premium: "Prémium Minőség",
+            elegant: "Elegáns Design",
+            service: "Kiváló Szolgáltatás"
+        },
+        // Products
+        products: {
+            title: "Nargila Kategóriáink",
+            exclusive: "Exkluzív Nargila",
+            exclusiveDesc: "Csak szőke ízek",
+            darkMix: "Sötét MIX Nargila",
+            darkMixDesc: "Sötét + Szőke ízek",
+            luxury: "Luxus Nargila",
+            luxuryDesc: "Csak sötét ízek"
+        },
+        // Gallery
+        gallery: {
+            title: "Galéria",
+            subtitle: "Tapasztald meg a TRIOOO nargila szépségét",
+            view: "Megtekintés"
+        },
+        // About
+        about: {
+            title: "A TRIOOO hookah-ról",
+            text1: "A TRIOOO (korábban Hookah Trio néven ismert) egy népszerű nargila bár Marosvásárhelyen 2021 óta, amely speciális nargila ízeket és frissítő italokat kínál. Magas színvonalú szolgáltatást és kellemes környezetet biztosítunk, ahol vendégeink pihenhetnek és élvezhetik az egyedi nargila élményt.",
+            text2: "Instagram és Facebook oldalainkon keresztül megosztjuk legújabb akcióinkat, új ízvilágunkat és eseményeinket, amelyek a helyi dohányzó közösséget vonzzák. Kövesd te is!",
+            happyCustomers: "Elégedett Vásárló",
+            premiumFlavours: "Prémium Íz",
+            yearsExperience: "Év Tapasztalat"
+        },
+        // Reservation
+        reservation: {
+            title: "Foglalás",
+            poweredBy: "Powered by - meniudigital.ro"
+        },
+        // Contact
+        contact: {
+            title: "Lépj kapcsolatba",
+            phone: "Telefon",
+            email: "Email",
+            address: "Cím",
+            followUs: "Kövesd minket"
+        },
+        // Footer
+        footer: {
+            tagline: "Prémium nargila élmény 2021 óta",
+            quickLinks: "Gyors Linkek"
+        },
+        // Opening Hours
+        openingHours: {
+            openTill: "Nyitva:"
+        },
+        // Closed Popup
+        closedPopup: {
+            sorry: "Elnézést!",
+            closed: "Zárva vagyunk.",
+            contactUs: "Lépj kapcsolatba: +40 733 456 654"
+        }
+    }
+};
+

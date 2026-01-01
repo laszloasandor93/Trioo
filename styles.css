@@ -75,6 +75,7 @@ body {
     gap: 1rem;
 }
 
+
 .opening-hours-display {
     display: none;
     align-items: center;
@@ -90,6 +91,7 @@ body {
     will-change: transform;
     font-weight: 700;
     position: relative;
+    margin-right: -1rem;
 }
 
 .opening-hours-dropdown {
@@ -185,6 +187,38 @@ body {
     margin-left: 0.2rem;
 }
 
+/* Language Selector - Shared styles */
+.lang-flag {
+    width: 24px;
+    height: 18px;
+    object-fit: cover;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.lang-code {
+    font-size: 0.75rem;
+}
+
+.lang-option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.6rem 1rem;
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: var(--transition);
+}
+
+.lang-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
 .opening-hours-display:hover .opening-hours-arrow {
     transform: rotate(180deg);
 }
@@ -230,6 +264,61 @@ body {
 
 .nav-menu a:hover::after {
     width: 100%;
+}
+
+/* Language Selector in Menu */
+.language-selector-menu {
+    position: relative;
+}
+
+.language-link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+}
+
+.language-link::after {
+    display: none;
+}
+
+.language-link .lang-flag {
+    width: 20px;
+    height: 15px;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+.language-link .lang-code {
+    font-size: 0.9rem;
+}
+
+.language-selector-menu .language-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 0;
+    background: rgba(26, 26, 26, 1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
+    min-width: 140px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    z-index: 1001;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.language-selector-menu:hover .language-dropdown,
+.language-dropdown:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
 .nav-toggle {
@@ -1262,6 +1351,15 @@ body {
     .opening-hours-display {
         font-size: 0.75rem;
         padding: 0.3rem 0.6rem;
+    }
+
+    .language-selector {
+        order: -1;
+    }
+
+    .language-btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.75rem;
     }
 }
 

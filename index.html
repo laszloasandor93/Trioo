@@ -23,14 +23,34 @@
                 <span></span>
             </button>
             <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#products">Products</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#home" data-i18n="nav.home">Home</a></li>
+                <li><a href="#products" data-i18n="nav.products">Products</a></li>
+                <li><a href="#gallery" data-i18n="nav.gallery">Gallery</a></li>
+                <li><a href="#about" data-i18n="nav.about">About</a></li>
+                <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+                <li class="language-selector-menu">
+                    <a href="#" class="language-link" id="langBtn">
+                        <img src="pictures/en.png" alt="EN" class="lang-flag" id="langFlagIcon">
+                        <span class="lang-code">EN</span>
+                    </a>
+                    <div class="language-dropdown" id="langDropdown">
+                        <button class="lang-option" data-lang="en">
+                            <img src="pictures/en.png" alt="English" class="lang-flag">
+                            <span>English</span>
+                        </button>
+                        <button class="lang-option" data-lang="ro">
+                            <img src="pictures/ro.png" alt="Română" class="lang-flag">
+                            <span>Română</span>
+                        </button>
+                        <button class="lang-option" data-lang="hu">
+                            <img src="pictures/hu.png" alt="Magyar" class="lang-flag">
+                            <span>Magyar</span>
+                        </button>
+                    </div>
+                </li>
             </ul>
             <div class="opening-hours-display" id="openingHours">
-                <span class="opening-hours-label">Open till:</span>
+                <span class="opening-hours-label" data-i18n="openingHours.openTill">Open till:</span>
                 <span class="opening-hours-time" id="openingHoursTime">Loading...</span>
                 <span class="opening-hours-date" id="openingHoursDate"></span>
                 <span class="opening-hours-arrow">▼</span>
@@ -47,11 +67,11 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <img src="pictures/Logo.png" alt="TRIOOO Hookah" class="hero-logo" fetchpriority="high" decoding="async">
-            <h2 class="hero-title">Best Hookah Experience</h2>
-            <p class="hero-subtitle">Discover the art of Hookah</p>
+            <h2 class="hero-title" data-i18n="hero.title">Best Hookah Experience</h2>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">Discover the art of Hookah</p>
             <div class="hero-buttons">
-                <a href="#reservation" id="reserveButton" class="btn btn-primary">Reserve</a>
-                <a href="#contact" class="btn btn-primary btn-contact">Contact Us</a>
+                <a href="#reservation" id="reserveButton" class="btn btn-primary" data-i18n="hero.reserve">Reserve</a>
+                <a href="#contact" class="btn btn-primary btn-contact" data-i18n="hero.contactUs">Contact Us</a>
             </div>
             <div class="hero-social-icons">
                 <a href="https://www.instagram.com/hookah.trio" target="_blank" rel="noopener noreferrer">
@@ -75,19 +95,19 @@
                     <div class="feature-icon">
                         <img src="pictures/premium.jpg" alt="Premium Quality" class="feature-image feature-image-rectangle" loading="lazy" decoding="async">
                     </div>
-                    <h3>Premium Quality</h3>
+                    <h3 data-i18n="features.premium">Premium Quality</h3>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <img src="pictures/elegant.jpg" alt="Elegant Design" class="feature-image feature-image-rectangle" loading="lazy" decoding="async">
                     </div>
-                    <h3>Elegant Design</h3>
+                    <h3 data-i18n="features.elegant">Elegant Design</h3>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <img src="pictures/service.jpg" alt="High Quality Service" class="feature-image feature-image-rectangle feature-image-small" loading="lazy" decoding="async">
                     </div>
-                    <h3>High Quality Service</h3>
+                    <h3 data-i18n="features.service">High Quality Service</h3>
                 </div>
             </div>
         </div>
@@ -96,15 +116,15 @@
     <!-- Products Section -->
     <section id="products" class="products">
         <div class="container">
-            <h2 class="section-title">Our Hookah Categories</h2>
+            <h2 class="section-title" data-i18n="products.title">Our Hookah Categories</h2>
             <div class="products-grid">
                 <div class="product-card">
                     <div class="product-image">
                         <img src="pictures/blonde.jpg" alt="Exclusive Hookah" loading="lazy">
                     </div>
                     <div class="product-info">
-                        <h3>Exclusive Hookah</h3>
-                        <p>Only blonde flavours</p>
+                        <h3 data-i18n="products.exclusive">Exclusive Hookah</h3>
+                        <p data-i18n="products.exclusiveDesc">Only blonde flavours</p>
                     </div>
                 </div>
                 <div class="product-card">
@@ -112,8 +132,8 @@
                         <img src="pictures/mix.jpg" alt="Dark MIX Hookah" loading="lazy">
                     </div>
                     <div class="product-info">
-                        <h3>Dark MIX Hookah</h3>
-                        <p>Dark + Blonde flavours</p>
+                        <h3 data-i18n="products.darkMix">Dark MIX Hookah</h3>
+                        <p data-i18n="products.darkMixDesc">Dark + Blonde flavours</p>
                     </div>
                 </div>
                 <div class="product-card">
@@ -121,8 +141,8 @@
                         <img src="pictures/dark.jpg" alt="Luxury Hookah" loading="lazy">
                     </div>
                     <div class="product-info">
-                        <h3>Luxury Hookah</h3>
-                        <p>Only Dark flavours</p>
+                        <h3 data-i18n="products.luxury">Luxury Hookah</h3>
+                        <p data-i18n="products.luxuryDesc">Only Dark flavours</p>
                     </div>
                 </div>
             </div>
@@ -132,79 +152,79 @@
     <!-- Gallery Section -->
     <section id="gallery" class="gallery">
         <div class="container">
-            <h2 class="section-title">Gallery</h2>
-            <p class="section-subtitle">Experience the beauty of TRIOOO hookah</p>
+            <h2 class="section-title" data-i18n="gallery.title">Gallery</h2>
+            <p class="section-subtitle" data-i18n="gallery.subtitle">Experience the beauty of TRIOOO hookah</p>
             <div class="gallery-grid">
                 <div class="gallery-item">
                     <img src="pictures/gallery/1.jpg" alt="TRIOOO hookah Gallery 1" loading="lazy">
                     <div class="gallery-overlay">
-                        <span>View</span>
+                        <span data-i18n="gallery.view">View</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <img src="pictures/gallery/2.jpg" alt="TRIOOO hookah Gallery 2" loading="lazy">
                     <div class="gallery-overlay">
-                        <span>View</span>
+                        <span data-i18n="gallery.view">View</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <img src="pictures/gallery/3.jpg" alt="TRIOOO hookah Gallery 3" loading="lazy">
                     <div class="gallery-overlay">
-                        <span>View</span>
+                        <span data-i18n="gallery.view">View</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <img src="pictures/gallery/4.jpg" alt="TRIOOO hookah Gallery 4" loading="lazy">
                     <div class="gallery-overlay">
-                        <span>View</span>
+                        <span data-i18n="gallery.view">View</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <img src="pictures/gallery/5.jpg" alt="TRIOOO hookah Gallery 5" loading="lazy">
                     <div class="gallery-overlay">
-                        <span>View</span>
+                        <span data-i18n="gallery.view">View</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <img src="pictures/gallery/6.jpg" alt="TRIOOO hookah Gallery 6" loading="lazy">
                     <div class="gallery-overlay">
-                        <span>View</span>
+                        <span data-i18n="gallery.view">View</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <img src="pictures/gallery/7.jpg" alt="TRIOOO hookah Gallery 7" loading="lazy">
                     <div class="gallery-overlay">
-                        <span>View</span>
+                        <span data-i18n="gallery.view">View</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <img src="pictures/gallery/8.jpg" alt="TRIOOO hookah Gallery 8" loading="lazy">
                     <div class="gallery-overlay">
-                        <span>View</span>
+                        <span data-i18n="gallery.view">View</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <img src="pictures/gallery/9.jpg" alt="TRIOOO hookah Gallery 9" loading="lazy">
                     <div class="gallery-overlay">
-                        <span>View</span>
+                        <span data-i18n="gallery.view">View</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <img src="pictures/gallery/10.jpg" alt="TRIOOO hookah Gallery 10" loading="lazy">
                     <div class="gallery-overlay">
-                        <span>View</span>
+                        <span data-i18n="gallery.view">View</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <img src="pictures/gallery/11.jpg" alt="TRIOOO hookah Gallery 11" loading="lazy">
                     <div class="gallery-overlay">
-                        <span>View</span>
+                        <span data-i18n="gallery.view">View</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <img src="pictures/gallery/12.jpg" alt="TRIOOO hookah Gallery 12" loading="lazy">
                     <div class="gallery-overlay">
-                        <span>View</span>
+                        <span data-i18n="gallery.view">View</span>
                     </div>
                 </div>
             </div>
@@ -216,21 +236,21 @@
         <div class="container">
             <div class="about-content">
                 <div class="about-text">
-                    <h2 class="section-title">About TRIOOO hookah</h2>
-                    <p>TRIOOO (originally known as Hookah Trio) has been a popular hookah bar in Târgu Mureș since 2021, offering special hookah flavors and refreshing drinks. We provide high-quality service and a pleasant environment where our guests can relax and enjoy the unique hookah experience.</p>
-                    <p>Through our Instagram and Facebook pages, we share our latest promotions, new flavors, and events that attract the local smoking community. Follow us too!</p>
+                    <h2 class="section-title" data-i18n="about.title">About TRIOOO hookah</h2>
+                    <p data-i18n="about.text1">TRIOOO (originally known as Hookah Trio) has been a popular hookah bar in Târgu Mureș since 2021, offering special hookah flavors and refreshing drinks. We provide high-quality service and a pleasant environment where our guests can relax and enjoy the unique hookah experience.</p>
+                    <p data-i18n="about.text2">Through our Instagram and Facebook pages, we share our latest promotions, new flavors, and events that attract the local smoking community. Follow us too!</p>
                     <div class="about-stats">
                         <div class="stat">
                             <h3>1000+</h3>
-                            <p>Happy Customers</p>
+                            <p data-i18n="about.happyCustomers">Happy Customers</p>
                         </div>
                         <div class="stat">
                             <h3>50+</h3>
-                            <p>Premium Flavours</p>
+                            <p data-i18n="about.premiumFlavours">Premium Flavours</p>
                         </div>
                         <div class="stat">
                             <h3>4+</h3>
-                            <p>Years Experience</p>
+                            <p data-i18n="about.yearsExperience">Years Experience</p>
                         </div>
                     </div>
                 </div>
@@ -244,8 +264,8 @@
     <!-- Reservation Section -->
     <section id="reservation" class="reservation">
         <div class="container">
-            <h2 class="section-title">Reservation</h2>
-            <p class="reservation-subtitle">Powered by - meniudigital.ro</p>
+            <h2 class="section-title" data-i18n="reservation.title">Reservation</h2>
+            <p class="reservation-subtitle" data-i18n="reservation.poweredBy">Powered by - meniudigital.ro</p>
             <div class="reservation-container">
                 <iframe src="https://www.meniudigital.ro/hookahtrio/rezervare" frameborder="0" class="reservation-iframe" scrolling="no"></iframe>
             </div>
@@ -322,16 +342,16 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>TRIOOO hookah</h3>
-                    <p>Premium hookah experience since 2021</p>
+                    <p data-i18n="footer.tagline">Premium hookah experience since 2021</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Quick Links</h4>
+                    <h4 data-i18n="footer.quickLinks">Quick Links</h4>
                     <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#products">Products</a></li>
-                        <li><a href="#gallery">Gallery</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#home" data-i18n="nav.home">Home</a></li>
+                        <li><a href="#products" data-i18n="nav.products">Products</a></li>
+                        <li><a href="#gallery" data-i18n="nav.gallery">Gallery</a></li>
+                        <li><a href="#about" data-i18n="nav.about">About</a></li>
+                        <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -353,6 +373,10 @@
         <img class="gallery-modal-content" id="galleryModalImg" src="" alt="Gallery Image">
     </div>
 
+    <!-- Translations -->
+    <script src="translations.js"></script>
+    <!-- i18n -->
+    <script src="i18n.js"></script>
     <!-- Supabase Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Config -->
@@ -384,13 +408,13 @@
         <div class="closed-popup-content">
             <button class="closed-popup-close" id="closedPopupClose" aria-label="Close">×</button>
             <div class="closed-popup-text">
-                <span class="closed-popup-title-line">Sorry!</span>
-                <span class="closed-popup-title-line">We are closed.</span>
+                <span class="closed-popup-title-line" data-i18n="closedPopup.sorry">Sorry!</span>
+                <span class="closed-popup-title-line" data-i18n="closedPopup.closed">We are closed.</span>
             </div>
             <div class="closed-popup-hours" id="closedPopupHours">
                 <div class="loading-hours">Loading hours...</div>
             </div>
-            <div class="closed-popup-contact">
+            <div class="closed-popup-contact" data-i18n="closedPopup.contactUs">
                 Contact us: +40 733 456 654
             </div>
         </div>
