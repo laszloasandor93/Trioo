@@ -88,7 +88,7 @@ const translations = {
         // Hero Section
         hero: {
             title: "Cea mai bună experiență de narghilea",
-            subtitle: "Descoperă arta narghilei",
+            subtitle: "Descoperă arta narghilelei",
             reserve: "Rezervă",
             contactUs: "Contactează-ne"
         },
@@ -111,14 +111,14 @@ const translations = {
         // Gallery
         gallery: {
             title: "Galerie",
-            subtitle: "Experimentează frumusețea narghilei TRIOOO",
+            subtitle: "Experimentează frumusețea narghilei la TRIOOO",
             view: "Vizualizează"
         },
         // About
         about: {
             title: "Despre TRIOOO hookah",
             text1: "TRIOOO (cunoscut anterior ca Hookah Trio) este un bar de narghilea popular în Târgu Mureș din 2021, oferind arome speciale de narghilea și băuturi răcoritoare. Oferim servicii de înaltă calitate și un mediu plăcut unde oaspeții noștri se pot relaxa și bucura de experiența unică de narghilea.",
-            text2: "Prin paginile noastre de Instagram și Facebook, împărtășim ultimele noastre promoții, arome noi și evenimente care atrag comunitatea locală de fumat. Urmărește-ne și tu!",
+            text2: "Prin paginile noastre de Instagram și Facebook, împărtășim ultimele noastre promoții, arome noi și evenimente care atrag comunitatea locală. Urmărește-ne și tu!",
             happyCustomers: "Clienți Mulțumiți",
             premiumFlavours: "Arome Premium",
             yearsExperience: "Ani de Experiență"
@@ -163,8 +163,8 @@ const translations = {
         },
         // Hero Section
         hero: {
-            title: "Legjobb Nargila Élmény",
-            subtitle: "Fedezd fel a nargila művészetét",
+            title: "Legjobb Vizipipa Élmény",
+            subtitle: "Fedezd fel a vizipipaa művészetét",
             reserve: "Foglalás",
             contactUs: "Lépj kapcsolatba"
         },
@@ -176,26 +176,26 @@ const translations = {
         },
         // Products
         products: {
-            title: "Nargila Kategóriáink",
-            exclusive: "Exkluzív Nargila",
-            exclusiveDesc: "Csak szőke ízek",
-            darkMix: "Sötét MIX Nargila",
-            darkMixDesc: "Sötét + Szőke ízek",
-            luxury: "Luxus Nargila",
-            luxuryDesc: "Csak sötét ízek"
+            title: "Vizipipa Kategóriáink",
+            exclusive: "Exkluzív Vizipipa",
+            exclusiveDesc: "Csak Blond aroma",
+            darkMix: "Dark MIX Vizipipa",
+            darkMixDesc: "Dark + Blond aroma",
+            luxury: "Luxury Vizipipa",
+            luxuryDesc: "Csak Dark aroma"
         },
         // Gallery
         gallery: {
             title: "Galéria",
-            subtitle: "Tapasztald meg a TRIOOO nargila szépségét",
+            subtitle: "Tapasztald meg a TRIOOO vizipipázó szépségét",
             view: "Megtekintés"
         },
         // About
         about: {
             title: "A TRIOOO hookah-ról",
-            text1: "A TRIOOO (korábban Hookah Trio néven ismert) egy népszerű nargila bár Marosvásárhelyen 2021 óta, amely speciális nargila ízeket és frissítő italokat kínál. Magas színvonalú szolgáltatást és kellemes környezetet biztosítunk, ahol vendégeink pihenhetnek és élvezhetik az egyedi nargila élményt.",
-            text2: "Instagram és Facebook oldalainkon keresztül megosztjuk legújabb akcióinkat, új ízvilágunkat és eseményeinket, amelyek a helyi dohányzó közösséget vonzzák. Kövesd te is!",
-            happyCustomers: "Elégedett Vásárló",
+            text1: "A TRIOOO (korábban Hookah Trio néven ismert) egy népszerű vvizipipa bár Marosvásárhelyen 2021 óta, amely különleges vizipipa ízeket és frissítő italokat kínál. Magas színvonalú szolgáltatást és kellemes környezetet biztosítunk, ahol vendégeink pihenhetnek és élvezhetik az egyedi vizipipa élményt.",
+            text2: "Instagram és Facebook oldalainkon keresztül megosztjuk legújabb akcióinkat és eseményeinket, amelyek a helyi pipázó közösséget vonzzák. Kövesd te is!",
+            happyCustomers: "Elégedett Vendégek",
             premiumFlavours: "Prémium Íz",
             yearsExperience: "Év Tapasztalat"
         },
@@ -210,12 +210,12 @@ const translations = {
             phone: "Telefon",
             email: "Email",
             address: "Cím",
-            followUs: "Kövesd minket"
+            followUs: "Kövess minket"
         },
         // Footer
         footer: {
-            tagline: "Prémium nargila élmény 2021 óta",
-            quickLinks: "Gyors Linkek"
+            tagline: "Prémium vizipipa élmény 2021 óta",
+            quickLinks: "Linkek"
         },
         // Opening Hours
         openingHours: {
@@ -225,7 +225,7 @@ const translations = {
         closedPopup: {
             sorry: "Elnézést!",
             closed: "Zárva vagyunk.",
-            contactUs: "Lépj kapcsolatba: +40 733 456 654"
+            contactUs: "Lépj kapcsolatba velünk: +40 733 456 654"
         }
     }
 };
