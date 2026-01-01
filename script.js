@@ -39,6 +39,50 @@ function isCurrentlyOpen(openingTime, closingTime) {
     }
 }
 
+// Update opening hours dropdown in menubar
+function updateOpeningHoursDropdown(allData) {
+    const dropdownContent = document.getElementById('openingHoursDropdownContent');
+    if (!dropdownContent || !allData || allData.length === 0) {
+        if (dropdownContent) {
+            dropdownContent.innerHTML = '<div class="no-hours">No hours available</div>';
+        }
+        return;
+    }
+
+    // Define day order
+    const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    
+    // Sort data by day order
+    const sortedData = dayOrder.map(day => 
+        allData.find(record => record.day && record.day.toLowerCase() === day.toLowerCase())
+    ).filter(Boolean);
+
+    // If some days are missing, add the rest
+    allData.forEach(record => {
+        if (!sortedData.find(r => r.day && r.day.toLowerCase() === record.day.toLowerCase())) {
+            sortedData.push(record);
+        }
+    });
+
+    if (sortedData.length === 0) {
+        dropdownContent.innerHTML = '<div class="no-hours">No hours available</div>';
+        return;
+    }
+    
+    let html = '<div class="hours-list">';
+    sortedData.forEach(record => {
+        const openingTime = formatTime(record.opening_time);
+        const closingTime = formatTime(record.closing_time);
+        html += `<div class="hours-item">
+            <span class="hours-day">${record.day}</span>
+            <span class="hours-time">${openingTime} - ${closingTime}</span>
+        </div>`;
+    });
+    html += '</div>';
+    
+    dropdownContent.innerHTML = html;
+}
+
 // Display all opening hours in the popup
 function displayAllOpeningHours(allData) {
     const popupHoursContainer = document.getElementById('closedPopupHours');
@@ -207,6 +251,9 @@ async function loadOpeningHours() {
                 const day = today.getDate();
                 openingHoursDateElement.textContent = `${currentDayName}, ${monthName} ${day}`;
             }
+            
+            // Update dropdown with all opening hours
+            updateOpeningHoursDropdown(hoursData);
             
             // Only show after data is fetched
             openingHoursContainer.style.display = 'flex';

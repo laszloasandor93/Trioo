@@ -89,6 +89,77 @@ body {
     transform: translateZ(0);
     will-change: transform;
     font-weight: 700;
+    position: relative;
+}
+
+.opening-hours-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(34, 197, 94, 0.9);
+    border-radius: 20px;
+    margin-top: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.opening-hours-display:hover .opening-hours-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.opening-hours-dropdown-content {
+    padding: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.opening-hours-dropdown-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.opening-hours-dropdown-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.opening-hours-dropdown-content::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.opening-hours-dropdown .hours-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.opening-hours-dropdown .hours-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: black;
+}
+
+.opening-hours-dropdown .hours-day {
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.opening-hours-dropdown .hours-time {
+    font-weight: 500;
+    font-size: 0.8rem;
 }
 
 .opening-hours-date {
@@ -105,6 +176,17 @@ body {
 .opening-hours-time {
     font-weight: 700;
     color: black;
+}
+
+.opening-hours-arrow {
+    font-size: 0.7rem;
+    color: black;
+    transition: transform 0.3s ease;
+    margin-left: 0.2rem;
+}
+
+.opening-hours-display:hover .opening-hours-arrow {
+    transform: rotate(180deg);
 }
 
 .logo-img {
@@ -889,6 +971,15 @@ body {
 
 .reservation .section-title {
     color: var(--text-light);
+}
+
+.reservation-subtitle {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: 400;
 }
 
 .reservation-container {
