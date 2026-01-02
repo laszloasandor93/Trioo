@@ -470,6 +470,39 @@ if ('loading' in HTMLImageElement.prototype) {
     document.body.appendChild(script);
 }
 
+// Gallery Slider - Auto scroll functionality
+let currentSlideIndex = 0;
+let gallerySlides = [];
+let galleryAutoScrollInterval = null;
+
+function initGallerySlider() {
+    gallerySlides = document.querySelectorAll('.gallery-slide');
+    if (gallerySlides.length === 0) return;
+    
+    // Show first slide
+    if (gallerySlides.length > 0) {
+        gallerySlides[0].classList.add('active');
+    }
+    
+    // Auto scroll every 3 seconds
+    galleryAutoScrollInterval = setInterval(() => {
+        nextGallerySlide();
+    }, 3000);
+}
+
+function nextGallerySlide() {
+    if (gallerySlides.length === 0) return;
+    
+    // Remove active class from current slide
+    gallerySlides[currentSlideIndex].classList.remove('active');
+    
+    // Move to next slide
+    currentSlideIndex = (currentSlideIndex + 1) % gallerySlides.length;
+    
+    // Add active class to new slide
+    gallerySlides[currentSlideIndex].classList.add('active');
+}
+
 // Gallery Modal functionality
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('galleryModal');
@@ -477,18 +510,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.querySelector('.gallery-modal-close');
     const prevBtn = document.querySelector('.gallery-modal-prev');
     const nextBtn = document.querySelector('.gallery-modal-next');
-    const galleryItems = document.querySelectorAll('.gallery-item');
+    const gallerySlides = document.querySelectorAll('.gallery-slide');
     
     // Store all gallery images
-    const galleryImages = Array.from(galleryItems).map(item => {
-        const img = item.querySelector('img');
+    const galleryImages = Array.from(gallerySlides).map(slide => {
+        const wrapper = slide.querySelector('.gallery-slide-wrapper');
+        const img = wrapper ? wrapper.querySelector('img') : slide.querySelector('img');
         return {
-            src: img.src,
-            alt: img.alt || 'Gallery Image'
+            src: img ? img.src : '',
+            alt: img ? (img.alt || 'Gallery Image') : 'Gallery Image'
         };
     });
     
     let currentImageIndex = 0;
+    
+    // Initialize gallery slider
+    initGallerySlider();
 
     // Function to show image at specific index
     function showImage(index) {
@@ -506,12 +543,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Open modal when clicking on gallery item
-    galleryItems.forEach((item, index) => {
-        const img = item.querySelector('img');
-        item.addEventListener('click', (e) => {
+    // Open modal when clicking on gallery slide
+    gallerySlides.forEach((slide, index) => {
+        slide.addEventListener('click', (e) => {
             e.preventDefault();
-            if (modal && modalImg && img) {
+            if (modal && modalImg) {
+                // Pause auto-scroll when modal opens
+                if (galleryAutoScrollInterval) {
+                    clearInterval(galleryAutoScrollInterval);
+                }
                 currentImageIndex = index;
                 modal.classList.add('active');
                 showImage(currentImageIndex);
@@ -536,6 +576,12 @@ document.addEventListener('DOMContentLoaded', () => {
     closeBtn.addEventListener('click', () => {
         modal.classList.remove('active');
         document.body.style.overflow = ''; // Restore scrolling
+        // Resume auto-scroll when modal closes
+        if (gallerySlides.length > 0) {
+            galleryAutoScrollInterval = setInterval(() => {
+                nextGallerySlide();
+            }, 3000);
+        }
     });
 
     // Close modal when clicking outside the image
@@ -543,6 +589,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === modal) {
             modal.classList.remove('active');
             document.body.style.overflow = ''; // Restore scrolling
+            // Resume auto-scroll when modal closes
+            if (gallerySlides.length > 0) {
+                galleryAutoScrollInterval = setInterval(() => {
+                    nextGallerySlide();
+                }, 3000);
+            }
         }
     });
 
@@ -553,6 +605,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') {
             modal.classList.remove('active');
             document.body.style.overflow = ''; // Restore scrolling
+            // Resume auto-scroll when modal closes
+            if (gallerySlides.length > 0) {
+                galleryAutoScrollInterval = setInterval(() => {
+                    nextGallerySlide();
+                }, 3000);
+            }
         } else if (e.key === 'ArrowLeft') {
             showImage(currentImageIndex - 1);
         } else if (e.key === 'ArrowRight') {

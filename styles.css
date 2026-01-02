@@ -686,38 +686,58 @@ body {
     background: transparent;
 }
 
-.gallery-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-top: 3rem;
-}
-
-.gallery-item {
+/* Gallery Slider */
+.gallery-slider {
     position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: 3rem auto 0;
     overflow: hidden;
     border-radius: 15px;
-    aspect-ratio: 1;
-    cursor: pointer;
 }
 
-.gallery-item img {
-    cursor: pointer;
-    pointer-events: auto;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: optimize-speed;
+.gallery-slider-container {
+    position: relative;
+    width: 100%;
+    height: 450px;
 }
 
-.gallery-item img {
+.gallery-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: var(--transition);
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    cursor: pointer;
+    border-radius: 15px;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-slide.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.gallery-slide-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-slide-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 15px;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: optimize-speed;
     transform: translateZ(0);
     will-change: transform;
-    max-width: 100%;
 }
 
 .gallery-overlay {
@@ -733,14 +753,15 @@ body {
     opacity: 0;
     transition: var(--transition);
     pointer-events: none;
+    border-radius: 15px;
 }
 
-.gallery-item:hover .gallery-overlay {
+.gallery-slide-wrapper:hover .gallery-overlay {
     opacity: 1;
 }
 
-.gallery-item:hover img {
-    transform: scale(1.1);
+.gallery-slide-wrapper:hover .gallery-slide-img {
+    transform: scale(1.05);
 }
 
 .gallery-overlay span {
@@ -1272,8 +1293,8 @@ body {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
 
-    .gallery-grid {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    .gallery-slider {
+        max-width: 100%;
     }
 
     .about-content {
