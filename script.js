@@ -35,19 +35,10 @@ function timeToMinutes(timeStr) {
 
 // Check if current time is between opening and closing time
 function isCurrentlyOpen(openingTime, closingTime) {
-    if (!openingTime || !closingTime) {
-        return false;
-    }
-    
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
     const openingMinutes = timeToMinutes(openingTime);
     const closingMinutes = timeToMinutes(closingTime);
-    
-    // If times couldn't be parsed, assume closed
-    if (openingMinutes === 0 && closingMinutes === 0) {
-        return false;
-    }
     
     // Handle case where closing time is next day (e.g., 02:00)
     if (closingMinutes < openingMinutes) {
@@ -273,6 +264,7 @@ async function loadOpeningHours() {
 
         // Only show/hide after data is successfully fetched
         // Check if currently open
+<<<<<<< HEAD
         const isOpen = isCurrentlyOpen(dayData.opening_time, dayData.closing_time);
         console.log('Opening time:', dayData.opening_time, 'Closing time:', dayData.closing_time, 'Is open:', isOpen);
         console.log('Will show box - isOpen:', isOpen);
@@ -281,6 +273,9 @@ async function loadOpeningHours() {
             // Remove closed class if it exists
             openingHoursContainer.classList.remove('closed');
             
+=======
+        if (isCurrentlyOpen(dayData.opening_time, dayData.closing_time)) {
+>>>>>>> parent of 634804b (added closed red box)
             const closingTime = formatTime(dayData.closing_time);
             console.log('Closing time formatted:', closingTime, 'from:', dayData.closing_time);
             if (!closingTime) {
@@ -301,14 +296,6 @@ async function loadOpeningHours() {
                 openingHoursDateElement.textContent = `${currentDayName}, ${monthName} ${day}`;
             }
             
-            // Show all elements
-            const openingHoursLabel = openingHoursContainer.querySelector('.opening-hours-label');
-            const openingHoursDate = document.getElementById('openingHoursDate');
-            const openingHoursArrow = openingHoursContainer.querySelector('.opening-hours-arrow');
-            if (openingHoursLabel) openingHoursLabel.style.display = '';
-            if (openingHoursDate) openingHoursDate.style.display = '';
-            if (openingHoursArrow) openingHoursArrow.style.display = '';
-            
             // Update dropdown with all opening hours
             updateOpeningHoursDropdown(hoursData);
             
@@ -322,6 +309,7 @@ async function loadOpeningHours() {
             console.log('Opening hours container display set to:', openingHoursContainer.style.display);
             console.log('Computed display:', window.getComputedStyle(openingHoursContainer).display);
         } else {
+<<<<<<< HEAD
             // Show red "Closed" box when closed
             // Remove any previous state classes
             openingHoursContainer.classList.remove('closed');
@@ -365,6 +353,10 @@ async function loadOpeningHours() {
             
             // Also show the closed popup
             console.log('Attempting to show closed popup');
+=======
+            // Hide the box when closed and show popup
+            openingHoursContainer.style.display = 'none';
+>>>>>>> parent of 634804b (added closed red box)
             if (closedPopup) {
                 console.log('Closed popup element found, setting display to flex');
                 closedPopup.style.setProperty('display', 'flex', 'important');
@@ -373,6 +365,7 @@ async function loadOpeningHours() {
             } else {
                 console.error('Closed popup element not found!');
             }
+<<<<<<< HEAD
             
             console.log('Restaurant is closed - showing red box', {
                 container: openingHoursContainer,
@@ -382,6 +375,8 @@ async function loadOpeningHours() {
                 closedPopup: closedPopup,
                 closedPopupDisplay: closedPopup ? closedPopup.style.display : 'element not found'
             });
+=======
+>>>>>>> parent of 634804b (added closed red box)
         }
     } catch (error) {
         // Hide box on error and show popup

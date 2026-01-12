@@ -94,32 +94,6 @@ body {
     margin-right: -1rem;
 }
 
-.opening-hours-display.closed {
-    background: rgba(239, 68, 68, 0.9) !important;
-    color: white !important;
-}
-
-.opening-hours-display.closed .opening-hours-time {
-    color: white !important;
-}
-
-.opening-hours-display.closed .opening-hours-dropdown {
-    background: rgba(239, 68, 68, 1) !important;
-}
-
-.opening-hours-display.closed .opening-hours-dropdown .hours-item {
-    background: rgba(255, 255, 255, 0.1) !important;
-    color: var(--text-light) !important;
-}
-
-.opening-hours-display.closed .opening-hours-dropdown .hours-day {
-    color: var(--text-light) !important;
-}
-
-.opening-hours-display.closed .opening-hours-dropdown .hours-time {
-    color: var(--text-light) !important;
-}
-
 .opening-hours-dropdown {
     position: absolute;
     top: 100%;

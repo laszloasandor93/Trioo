@@ -67,8 +67,7 @@ const translations = {
         },
         // Opening Hours
         openingHours: {
-            openTill: "Open till:",
-            closedMessage: "Closed! Check our opening hours:"
+            openTill: "Open till:"
         },
         // Closed Popup
         closedPopup: {
@@ -144,8 +143,7 @@ const translations = {
         },
         // Opening Hours
         openingHours: {
-            openTill: "Deschis până la:",
-            closedMessage: "Închis! Verifică programul nostru:"
+            openTill: "Deschis până la:"
         },
         // Closed Popup
         closedPopup: {
@@ -221,8 +219,7 @@ const translations = {
         },
         // Opening Hours
         openingHours: {
-            openTill: "Nyitva:",
-            closedMessage: "Zárva! Nézd meg a nyitvatartásunkat:"
+            openTill: "Nyitva:"
         },
         // Closed Popup
         closedPopup: {
@@ -232,5 +229,4 @@ const translations = {
         }
     }
 };
-
 
