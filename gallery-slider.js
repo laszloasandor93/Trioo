@@ -10,118 +10,65 @@
     let slides = [];
     let autoSlideTimer = null;
     
-    // Function to detect and load all available gallery images
-    function detectAndLoadGalleryImages() {
+    // Function to load gallery images (hardcoded: 1-12.jpg)
+    function loadGalleryImages() {
         return new Promise((resolve) => {
-            const detectedImages = [];
-            const maxImages = 50; // Maximum number to check
-            let checked = 0;
-            let foundCount = 0;
-            let loadedCount = 0;
+            const imageCount = 12; // Fixed: show images 1-12
+            const imageList = [];
             
-            // First, detect which images exist
-            function checkImage(index) {
-                if (index > maxImages) {
-                    // All images checked, now load all detected images
-                    if (detectedImages.length === 0) {
-                        resolve([]);
-                        return;
-                    }
-                    loadAllImages(detectedImages.sort((a, b) => a.index - b.index));
-                    return;
-                }
-                
-                const img = new Image();
-                
-                img.onload = function() {
-                    // Image exists - add to detected list
-                    detectedImages.push({
-                        src: `${galleryFolder}${index}.jpg`,
-                        alt: `TRIOOO hookah Gallery ${index}`,
-                        index: index,
-                        img: img // Store the loaded image
-                    });
-                    foundCount++;
-                    checked++;
-                    
-                    // Continue checking next image
-                    checkImage(index + 1);
-                };
-                
-                img.onerror = function() {
-                    // Image doesn't exist
-                    checked++;
-                    
-                    // If we've found some images and then hit a gap, we might be done
-                    // But continue checking a few more just in case
-                    if (foundCount > 0 && checked > foundCount + 5) {
-                        // We've checked 5 more than we found, likely done
-                        if (detectedImages.length === 0) {
-                            resolve([]);
-                            return;
-                        }
-                        loadAllImages(detectedImages.sort((a, b) => a.index - b.index));
-                        return;
-                    }
-                    
-                    // Continue checking next image
-                    checkImage(index + 1);
-                };
-                
-                // Start loading the image
-                img.src = `${galleryFolder}${index}.jpg`;
-            }
-            
-            // Load all detected images to ensure they're fully loaded
-            function loadAllImages(images) {
-                if (images.length === 0) {
-                    resolve([]);
-                    return;
-                }
-                
-                const loadedImages = [];
-                let imagesToLoad = images.length;
-                let imagesLoaded = 0;
-                
-                images.forEach((imageData) => {
-                    const img = new Image();
-                    
-                    img.onload = function() {
-                        loadedImages.push({
-                            src: imageData.src,
-                            alt: imageData.alt,
-                            index: imageData.index,
-                            loaded: true
-                        });
-                        imagesLoaded++;
-                        
-                        // When all images are loaded, resolve
-                        if (imagesLoaded === imagesToLoad) {
-                            resolve(loadedImages.sort((a, b) => a.index - b.index));
-                        }
-                    };
-                    
-                    img.onerror = function() {
-                        // Even if detection passed, loading might fail - skip this image
-                        imagesLoaded++;
-                        if (imagesLoaded === imagesToLoad) {
-                            resolve(loadedImages.sort((a, b) => a.index - b.index));
-                        }
-                    };
-                    
-                    // Load the image
-                    img.src = imageData.src;
+            // Create list of image paths
+            for (let i = 1; i <= imageCount; i++) {
+                imageList.push({
+                    src: `${galleryFolder}${i}.jpg`,
+                    alt: `TRIOOO hookah Gallery ${i}`,
+                    index: i
                 });
             }
             
-            // Start checking from image 1
-            checkImage(1);
+            // Load all images to ensure they're fully loaded
+            const loadedImages = [];
+            let imagesToLoad = imageList.length;
+            let imagesLoaded = 0;
+            
+            if (imagesToLoad === 0) {
+                resolve([]);
+                return;
+            }
+            
+            imageList.forEach((imageData) => {
+                const img = new Image();
+                
+                img.onload = function() {
+                    loadedImages.push({
+                        src: imageData.src,
+                        alt: imageData.alt,
+                        index: imageData.index
+                    });
+                    imagesLoaded++;
+                    
+                    // When all images are loaded, resolve
+                    if (imagesLoaded === imagesToLoad) {
+                        resolve(loadedImages.sort((a, b) => a.index - b.index));
+                    }
+                };
+                
+                img.onerror = function() {
+                    // Skip failed images
+                    imagesLoaded++;
+                    if (imagesLoaded === imagesToLoad) {
+                        resolve(loadedImages.sort((a, b) => a.index - b.index));
+                    }
+                };
+                
+                // Load the image
+                img.src = imageData.src;
+            });
         });
     }
     
     // Function to get gallery images (wrapper for compatibility)
     async function getGalleryImages() {
-        const loadedImages = await detectAndLoadGalleryImages();
+        const loadedImages = await loadGalleryImages();
         // Remove extra properties before returning
         return loadedImages.map(img => ({
             src: img.src,

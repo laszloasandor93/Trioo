@@ -4,8 +4,19 @@ let supabaseClient = null;
 function initializeSupabase() {
     if (typeof supabase !== 'undefined' && SUPABASE_CONFIG && SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey) {
         if (SUPABASE_CONFIG.url !== 'YOUR_SUPABASE_URL' && SUPABASE_CONFIG.anonKey !== 'YOUR_SUPABASE_ANON_KEY') {
-            supabaseClient = supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+            try {
+                supabaseClient = supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+                console.log('Supabase client initialized successfully');
+                console.log('Supabase URL:', SUPABASE_CONFIG.url);
+                console.log('Table name:', SUPABASE_CONFIG.openingHoursTable || 'opening_hours');
+            } catch (error) {
+                console.error('Error initializing Supabase client:', error);
+            }
+        } else {
+            console.warn('Supabase configuration not set (using placeholder values)');
         }
+    } else {
+        console.warn('Supabase library or configuration not available');
     }
 }
 
@@ -140,7 +151,12 @@ async function loadOpeningHours() {
     const openingHoursContainer = document.getElementById('openingHours');
     const closedPopup = document.getElementById('closedPopup');
     
-    if (!openingHoursElement || !openingHoursContainer) return;
+    if (!openingHoursElement || !openingHoursContainer) {
+        console.error('Opening hours elements not found');
+        return;
+    }
+    
+    console.log('loadOpeningHours called');
 
     // Get current day name (Monday, Tuesday, etc.)
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -154,9 +170,7 @@ async function loadOpeningHours() {
         }
 
         // Ensure popup is hidden initially (will be shown if needed after data fetch)
-        if (closedPopup) {
-            closedPopup.style.display = 'none';
-        }
+        // Don't hide it here - let the logic decide based on data
         
         if (!supabaseClient) {
             openingHoursContainer.style.display = 'none';
@@ -194,6 +208,7 @@ async function loadOpeningHours() {
         }
 
         // Fetch all records to check for case-insensitive match if needed
+        console.log('Fetching all opening hours from table:', tableName);
         const { data: allData, error: allDataError } = await supabaseClient
             .from(tableName)
             .select('*')
@@ -202,12 +217,21 @@ async function loadOpeningHours() {
         // If there's an error fetching all data, log it but continue
         if (allDataError) {
             console.error('Error fetching all opening hours:', allDataError);
+            console.error('Error details:', JSON.stringify(allDataError, null, 2));
+            openingHoursContainer.style.display = 'none';
+            if (closedPopup) {
+                closedPopup.style.display = 'flex';
+            }
+            return;
         }
+        
+        console.log('Fetched opening hours data:', allData);
         
         // Ensure we always have an array to pass to displayAllOpeningHours
         const hoursData = allData || [];
 
         // Fetch opening hours for current day - get the whole record
+        console.log('Fetching opening hours for current day:', currentDay);
         const { data, error } = await supabaseClient
             .from(tableName)
             .select('*')
@@ -236,17 +260,22 @@ async function loadOpeningHours() {
 
         // Get popup element once (already defined earlier in function)
         if (!dayData) {
+            console.warn('No day data found, showing popup');
             openingHoursContainer.style.display = 'none';
             if (closedPopup) {
                 closedPopup.style.display = 'flex';
             }
             return;
         }
+        
+        console.log('Day data found:', dayData);
+        console.log('Opening hours container:', openingHoursContainer);
 
         // Only show/hide after data is successfully fetched
         // Check if currently open
         const isOpen = isCurrentlyOpen(dayData.opening_time, dayData.closing_time);
         console.log('Opening time:', dayData.opening_time, 'Closing time:', dayData.closing_time, 'Is open:', isOpen);
+        console.log('Will show box - isOpen:', isOpen);
         
         if (isOpen) {
             // Remove closed class if it exists
@@ -279,10 +308,14 @@ async function loadOpeningHours() {
             updateOpeningHoursDropdown(hoursData);
             
             // Only show after data is fetched
-            openingHoursContainer.style.display = 'flex';
+            console.log('Setting opening hours container display to flex (open)');
+            openingHoursContainer.style.setProperty('display', 'flex', 'important');
+            openingHoursContainer.style.visibility = 'visible';
             if (closedPopup) {
                 closedPopup.style.display = 'none';
             }
+            console.log('Opening hours container display set to:', openingHoursContainer.style.display);
+            console.log('Computed display:', window.getComputedStyle(openingHoursContainer).display);
         } else {
             // Show red "Closed" box when closed
             // Remove any previous state classes
@@ -319,19 +352,30 @@ async function loadOpeningHours() {
             updateOpeningHoursDropdown(hoursData);
             
             // Show the box with red background
-            openingHoursContainer.style.display = 'flex';
+            console.log('Setting opening hours container display to flex (closed)');
+            openingHoursContainer.style.setProperty('display', 'flex', 'important');
+            openingHoursContainer.style.visibility = 'visible';
             openingHoursContainer.style.background = 'rgba(239, 68, 68, 0.9)';
             openingHoursContainer.style.color = 'white';
             
             // Also show the closed popup
+            console.log('Attempting to show closed popup');
             if (closedPopup) {
-                closedPopup.style.display = 'flex';
+                console.log('Closed popup element found, setting display to flex');
+                closedPopup.style.setProperty('display', 'flex', 'important');
+                console.log('Closed popup display set to:', closedPopup.style.display);
+                console.log('Closed popup computed display:', window.getComputedStyle(closedPopup).display);
+            } else {
+                console.error('Closed popup element not found!');
             }
             
             console.log('Restaurant is closed - showing red box', {
                 container: openingHoursContainer,
                 hasClosedClass: openingHoursContainer.classList.contains('closed'),
-                display: openingHoursContainer.style.display
+                display: openingHoursContainer.style.display,
+                computedDisplay: window.getComputedStyle(openingHoursContainer).display,
+                closedPopup: closedPopup,
+                closedPopupDisplay: closedPopup ? closedPopup.style.display : 'element not found'
             });
         }
     } catch (error) {
@@ -398,10 +442,25 @@ function closeClosedPopup() {
     }
 }
 
-// Start when DOM is ready
+// Start checking database immediately (if DOM is ready) or wait for DOM
+function initializeOpeningHoursCheck() {
+    // If DOM is already ready, check immediately
+    if (document.readyState === 'loading') {
+        // DOM is still loading, wait for it
+        document.addEventListener('DOMContentLoaded', () => {
+            waitForConfigAndLoad();
+        });
+    } else {
+        // DOM is already ready, check immediately
+        waitForConfigAndLoad();
+    }
+}
+
+// Initialize opening hours check immediately
+initializeOpeningHoursCheck();
+
+// Set up popup handlers when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    waitForConfigAndLoad();
-    
     // Add close button functionality
     const closeButton = document.getElementById('closedPopupClose');
     if (closeButton) {

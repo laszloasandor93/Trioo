@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .test-result {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #2a2a2a;
+        }
+        .success {
+            background: #22c55e;
+            color: white;
+        }
+        .error {
+            background: #ef4444;
+            color: white;
+        }
+        .info {
+            background: #3b82f6;
+            color: white;
+        }
+        pre {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border: 1px solid #444;
+        }
+        button {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #16a34a;
+        }
+    </style>
+</head>
+<body>
+    <h1>Supabase Connection Test</h1>
+    <div id="results"></div>
+    <button onclick="runTest()">Run Test</button>
+    <button onclick="clearResults()">Clear Results</button>
+
+    <!-- Load Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    
+    <script>
+        const resultsDiv = document.getElementById('results');
+        
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.innerHTML = message;
+            resultsDiv.appendChild(div);
+        }
+        
+        function clearResults() {
+            resultsDiv.innerHTML = '';
+        }
+        
+        async function runTest() {
+            clearResults();
+            addResult('Starting Supabase connection test...', 'info');
+            
+            // Test 1: Check if Supabase library is loaded
+            addResult(`<strong>Test 1:</strong> Checking if Supabase library is loaded...`, 'info');
+            if (typeof supabase === 'undefined') {
+                addResult(`<strong>❌ FAILED:</strong> Supabase library is not loaded. Make sure the script is included.`, 'error');
+                return;
+            }
+            addResult(`<strong>✅ PASSED:</strong> Supabase library is loaded.`, 'success');
+            
+            // Test 2: Check if config is loaded
+            addResult(`<strong>Test 2:</strong> Checking if SUPABASE_CONFIG is defined...`, 'info');
+            if (typeof SUPABASE_CONFIG === 'undefined') {
+                addResult(`<strong>❌ FAILED:</strong> SUPABASE_CONFIG is not defined. Check config.js file.`, 'error');
+                return;
+            }
+            addResult(`<strong>✅ PASSED:</strong> SUPABASE_CONFIG is defined.`, 'success');
+            
+            // Test 3: Check config values
+            addResult(`<strong>Test 3:</strong> Checking configuration values...`, 'info');
+            if (!SUPABASE_CONFIG.url || SUPABASE_CONFIG.url === 'YOUR_SUPABASE_URL') {
+                addResult(`<strong>❌ FAILED:</strong> Supabase URL is not configured.`, 'error');
+                return;
+            }
+            if (!SUPABASE_CONFIG.anonKey || SUPABASE_CONFIG.anonKey === 'YOUR_SUPABASE_ANON_KEY') {
+                addResult(`<strong>❌ FAILED:</strong> Supabase anonKey is not configured.`, 'error');
+                return;
+            }
+            addResult(`<strong>✅ PASSED:</strong> Configuration values are set.`, 'success');
+            addResult(`<strong>URL:</strong> ${SUPABASE_CONFIG.url}<br><strong>Table:</strong> ${SUPABASE_CONFIG.openingHoursTable || 'opening_hours'}`, 'info');
+            
+            // Test 4: Initialize client
+            addResult(`<strong>Test 4:</strong> Initializing Supabase client...`, 'info');
+            let client;
+            try {
+                client = supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+                addResult(`<strong>✅ PASSED:</strong> Supabase client created successfully.`, 'success');
+            } catch (error) {
+                addResult(`<strong>❌ FAILED:</strong> Failed to create Supabase client: ${error.message}`, 'error');
+                return;
+            }
+            
+            // Test 5: Test connection by fetching data
+            addResult(`<strong>Test 5:</strong> Testing database connection...`, 'info');
+            const tableName = SUPABASE_CONFIG.openingHoursTable || 'opening_hours';
+            try {
+                const { data, error } = await client
+                    .from(tableName)
+                    .select('*')
+                    .limit(1);
+                
+                if (error) {
+                    addResult(`<strong>❌ FAILED:</strong> Database query error: ${error.message}<br><strong>Details:</strong> ${JSON.stringify(error, null, 2)}`, 'error');
+                    
+                    // Provide helpful error messages
+                    if (error.message.includes('relation') || error.message.includes('does not exist')) {
+                        addResult(`<strong>💡 TIP:</strong> The table "${tableName}" might not exist. Check your Supabase database.`, 'info');
+                    } else if (error.message.includes('permission') || error.message.includes('policy')) {
+                        addResult(`<strong>💡 TIP:</strong> Row Level Security (RLS) policies might be blocking access. Check your Supabase RLS settings.`, 'info');
+                    }
+                    return;
+                }
+                
+                addResult(`<strong>✅ PASSED:</strong> Database connection successful!`, 'success');
+                addResult(`<strong>Found ${data ? data.length : 0} record(s) in table "${tableName}"</strong>`, 'info');
+                
+                if (data && data.length > 0) {
+                    addResult(`<strong>Sample data:</strong><pre>${JSON.stringify(data[0], null, 2)}</pre>`, 'info');
+                }
+                
+            } catch (error) {
+                addResult(`<strong>❌ FAILED:</strong> Connection test error: ${error.message}`, 'error');
+                return;
+            }
+            
+            // Test 6: Fetch all records
+            addResult(`<strong>Test 6:</strong> Fetching all records from table...`, 'info');
+            try {
+                const { data: allData, error: allError } = await client
+                    .from(tableName)
+                    .select('*')
+                    .order('day');
+                
+                if (allError) {
+                    addResult(`<strong>⚠️ WARNING:</strong> Error fetching all records: ${allError.message}`, 'error');
+                } else {
+                    addResult(`<strong>✅ PASSED:</strong> Successfully fetched ${allData ? allData.length : 0} record(s).`, 'success');
+                    
+                    if (allData && allData.length > 0) {
+                        addResult(`<strong>Days found:</strong> ${allData.map(r => r.day).join(', ')}`, 'info');
+                    }
+                }
+            } catch (error) {
+                addResult(`<strong>⚠️ WARNING:</strong> Error in test 6: ${error.message}`, 'error');
+            }
+            
+            addResult(`<strong>✅ All tests completed!</strong>`, 'success');
+        }
+        
+        // Auto-run test on load
+        window.addEventListener('load', () => {
+            setTimeout(runTest, 500);
+        });
+    </script>
+</body>
+</html>
+
