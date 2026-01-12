@@ -442,25 +442,9 @@ function closeClosedPopup() {
     }
 }
 
-// Start checking database immediately (if DOM is ready) or wait for DOM
-function initializeOpeningHoursCheck() {
-    // If DOM is already ready, check immediately
-    if (document.readyState === 'loading') {
-        // DOM is still loading, wait for it
-        document.addEventListener('DOMContentLoaded', () => {
-            waitForConfigAndLoad();
-        });
-    } else {
-        // DOM is already ready, check immediately
-        waitForConfigAndLoad();
-    }
-}
-
-// Initialize opening hours check immediately
-initializeOpeningHoursCheck();
-
-// Set up popup handlers when DOM is ready
+// Start when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    waitForConfigAndLoad();
     // Add close button functionality
     const closeButton = document.getElementById('closedPopupClose');
     if (closeButton) {
