@@ -1,129 +1,340 @@
-// Modern Gallery Slider - Circular pattern with automatic display
+// Modern Gallery Slider - Auto-loads images from pictures/gallery folder
 (function() {
     'use strict';
     
     const galleryFolder = 'pictures/gallery/';
-    const imageCount = 12;
+    const imageExtensions = ['jpg', 'jpeg', 'png', 'webp'];
     const autoSlideInterval = 4000; // 4 seconds
     
     let currentSlideIndex = 0;
     let slides = [];
     let autoSlideTimer = null;
     
-    // Initialize slider
-    function initSlider() {
-        const track = document.getElementById('sliderTrack');
-        const indicators = document.getElementById('sliderIndicators');
-        
-        if (!track || !indicators) {
-            console.error('Slider elements not found');
-            return;
-        }
-        
-        // Clear existing content
-        track.innerHTML = '';
-        indicators.innerHTML = '';
-        slides = [];
-        
-        // Create slides for images 1-12
-        for (let i = 1; i <= imageCount; i++) {
-            const slide = document.createElement('div');
-            slide.className = 'slider-slide' + (i === 1 ? ' active' : '');
-            slide.setAttribute('data-index', i - 1);
+    // Function to load gallery images (hardcoded: 1-12.jpg)
+    function loadGalleryImages() {
+        return new Promise((resolve) => {
+            const imageCount = 12; // Fixed: show images 1-12
+            const imageList = [];
             
-            const img = document.createElement('img');
-            img.src = `${galleryFolder}${i}.jpg`;
-            img.alt = `TRIOOO hookah Gallery ${i}`;
+            // Create list of image paths
+            for (let i = 1; i <= imageCount; i++) {
+                imageList.push({
+                    src: `${galleryFolder}${i}.jpg`,
+                    alt: `TRIOOO hookah Gallery ${i}`,
+                    index: i
+                });
+            }
             
-            slide.appendChild(img);
-            track.appendChild(slide);
+            // Load all images to ensure they're fully loaded
+            const loadedImages = [];
+            let imagesToLoad = imageList.length;
+            let imagesLoaded = 0;
             
-            // Create indicator
-            const indicator = document.createElement('div');
-            indicator.className = 'slider-indicator' + (i === 1 ? ' active' : '');
-            indicator.setAttribute('data-index', i - 1);
-            indicator.addEventListener('click', () => goToSlide(i - 1));
-            indicators.appendChild(indicator);
+            if (imagesToLoad === 0) {
+                resolve([]);
+                return;
+            }
             
-            slides.push(slide);
-        }
-        
-        // Setup navigation buttons
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                clearAutoSlide();
-                prevSlide();
-                startAutoSlide();
+            imageList.forEach((imageData) => {
+                const img = new Image();
+                
+                img.onload = function() {
+                    loadedImages.push({
+                        src: imageData.src,
+                        alt: imageData.alt,
+                        index: imageData.index
+                    });
+                    imagesLoaded++;
+                    
+                    // When all images are loaded, resolve
+                    if (imagesLoaded === imagesToLoad) {
+                        resolve(loadedImages.sort((a, b) => a.index - b.index));
+                    }
+                };
+                
+                img.onerror = function() {
+                    // Skip failed images
+                    imagesLoaded++;
+                    if (imagesLoaded === imagesToLoad) {
+                        resolve(loadedImages.sort((a, b) => a.index - b.index));
+                    }
+                };
+                
+                // Load the image
+                img.src = imageData.src;
             });
-        }
-        
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                clearAutoSlide();
-                nextSlide();
-                startAutoSlide();
-            });
-        }
-        
-        // Pause auto-slide on hover
-        const container = track.closest('.slider-container');
-        if (container) {
-            container.addEventListener('mouseenter', () => {
-                clearAutoSlide();
-            });
-            container.addEventListener('mouseleave', () => {
-                startAutoSlide();
-            });
-        }
-        
-        // Start auto-slide
-        startAutoSlide();
+        });
     }
     
-    // Update slider display
-    function updateSlider() {
+    // Function to get gallery images (wrapper for compatibility)
+    async function getGalleryImages() {
+        const loadedImages = await loadGalleryImages();
+        // Remove extra properties before returning
+        return loadedImages.map(img => ({
+            src: img.src,
+            alt: img.alt
+        }));
+    }
+    
+    // Initialize slider
+    async function initSlider() {
+        try {
+            const track = document.getElementById('sliderTrack');
+            const indicators = document.getElementById('sliderIndicators');
+            
+            if (!track || !indicators) {
+                console.error('Slider elements not found');
+                return;
+            }
+            
+            // Get gallery images (now async)
+            const images = await getGalleryImages();
+            
+            if (images.length === 0) {
+                console.warn('No gallery images found');
+                track.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: white;">No images found</div>';
+                return;
+            }
+            
+            console.log(`Found ${images.length} gallery images`);
+        
+        // Preload all images before showing slider
+        const allImagesToLoad = [
+            images[images.length - 1], // Last image (for clone)
+            ...images, // All original images
+            images[0] // First image (for clone)
+        ];
+        
+            // Wait for all images to load
+            await Promise.all(allImagesToLoad.map(image => {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve();
+                    img.onerror = () => resolve(); // Continue even if one fails
+                    img.src = image.src;
+                });
+            }));
+            
+            // Clear loading message
+            track.innerHTML = '';
+            
+            // Create slides - duplicate first and last for infinite loop
+            // Add clone of last image at the beginning
+            const lastImage = images[images.length - 1];
+            const lastSlide = document.createElement('div');
+            lastSlide.className = 'slider-slide clone';
+            lastSlide.innerHTML = `<img src="${lastImage.src}" alt="${lastImage.alt}">`;
+            track.appendChild(lastSlide);
+            
+            // Create original slides
+            images.forEach((image, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slider-slide' + (index === 0 ? ' active' : '');
+                slide.setAttribute('data-index', index);
+                slide.innerHTML = `<img src="${image.src}" alt="${image.alt}">`;
+                track.appendChild(slide);
+                
+                // Create indicator
+                const indicator = document.createElement('div');
+                indicator.className = 'slider-indicator' + (index === 0 ? ' active' : '');
+                indicator.setAttribute('data-index', index);
+                indicator.addEventListener('click', () => goToSlide(index));
+                indicators.appendChild(indicator);
+            });
+            
+            // Add clone of first image at the end
+            const firstImage = images[0];
+            const firstSlide = document.createElement('div');
+            firstSlide.className = 'slider-slide clone';
+            firstSlide.innerHTML = `<img src="${firstImage.src}" alt="${firstImage.alt}">`;
+            track.appendChild(firstSlide);
+            
+            slides = Array.from(track.querySelectorAll('.slider-slide'));
+            
+            // Start at position 1 (first real slide, after the last clone)
+            currentSlideIndex = 0;
+            updateSlider(true); // No animation on initial load
+            
+            // Setup navigation buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    clearAutoSlide();
+                    prevSlide();
+                    startAutoSlide();
+                });
+            }
+            
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    clearAutoSlide();
+                    nextSlide();
+                    startAutoSlide();
+                });
+            }
+            
+            // Pause on hover
+            const container = document.querySelector('.slider-container');
+            if (container) {
+                container.addEventListener('mouseenter', clearAutoSlide);
+                container.addEventListener('mouseleave', startAutoSlide);
+            }
+            
+            // Start auto-slide
+            startAutoSlide();
+        } catch (error) {
+            console.error('Error loading gallery images:', error);
+            const track = document.getElementById('sliderTrack');
+            if (track) {
+                track.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: white;">Error loading images</div>';
+            }
+        }
+    }
+    
+    function updateSlider(instant = false) {
+        const totalRealSlides = slides.length - 2; // Exclude clones
+        if (totalRealSlides === 0) return;
+        
+        // Ensure currentSlideIndex is within bounds
+        if (currentSlideIndex < 0) {
+            currentSlideIndex = totalRealSlides - 1;
+        } else if (currentSlideIndex >= totalRealSlides) {
+            currentSlideIndex = 0;
+        }
+        
+        // Calculate previous and next indices (for real slides only)
+        const prevIndex = (currentSlideIndex - 1 + totalRealSlides) % totalRealSlides;
+        const nextIndex = (currentSlideIndex + 1) % totalRealSlides;
+        
+        // Update all slides (including clones)
         slides.forEach((slide, index) => {
-            slide.classList.remove('active');
-            if (index === currentSlideIndex) {
+            slide.classList.remove('active', 'prev', 'next');
+            slide.style.display = 'flex';
+            
+            // Skip clones for class assignment
+            if (slide.classList.contains('clone')) {
+                return;
+            }
+            
+            const realIndex = parseInt(slide.getAttribute('data-index'));
+            if (realIndex === prevIndex) {
+                slide.classList.add('prev');
+            } else if (realIndex === currentSlideIndex) {
                 slide.classList.add('active');
+            } else if (realIndex === nextIndex) {
+                slide.classList.add('next');
             }
         });
+        
+        // Calculate scroll position - center the active slide
+        // Position in track: 0 = last clone, 1 to totalRealSlides = real slides, totalRealSlides + 1 = first clone
+        const track = document.getElementById('sliderTrack');
+        if (track) {
+            const slideWidthPercent = 33.333;
+            const gapPercent = 2;
+            const totalSlideWidth = slideWidthPercent + gapPercent;
+            
+            // Track position includes clones, so we add 1 (position 0 is last clone, position 1 is first real slide)
+            const trackPosition = currentSlideIndex + 1;
+            
+            const centerPosition = 50 - (slideWidthPercent / 2);
+            const currentPosition = trackPosition * totalSlideWidth;
+            const translateX = centerPosition - currentPosition;
+            
+            if (instant) {
+                track.style.transition = 'none';
+            } else {
+                track.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            }
+            
+            track.style.transform = `translateX(${translateX}%)`;
+        }
         
         // Update indicators
-        const indicatorElements = document.querySelectorAll('#sliderIndicators .slider-indicator');
+        const indicatorElements = document.querySelectorAll('.slider-indicator');
         indicatorElements.forEach((indicator, index) => {
-            indicator.classList.remove('active');
             if (index === currentSlideIndex) {
                 indicator.classList.add('active');
+            } else {
+                indicator.classList.remove('active');
             }
         });
     }
     
-    // Go to specific slide
-    function goToSlide(index) {
-        if (index < 0 || index >= slides.length) return;
-        currentSlideIndex = index;
-        updateSlider();
-        clearAutoSlide();
-        startAutoSlide();
-    }
-    
-    // Next slide (circular)
     function nextSlide() {
-        currentSlideIndex = (currentSlideIndex + 1) % slides.length;
-        updateSlider();
+        const totalRealSlides = slides.length - 2; // Exclude clones
+        
+        // If we're at the last slide, we'll animate to the first clone, then jump
+        if (currentSlideIndex === totalRealSlides - 1) {
+            // Animate to the clone at the end
+            const track = document.getElementById('sliderTrack');
+            if (track) {
+                const slideWidthPercent = 33.333;
+                const gapPercent = 2;
+                const totalSlideWidth = slideWidthPercent + gapPercent;
+                const centerPosition = 50 - (slideWidthPercent / 2);
+                const trackPosition = totalRealSlides + 1; // Position of first clone
+                const currentPosition = trackPosition * totalSlideWidth;
+                const translateX = centerPosition - currentPosition;
+                
+                track.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                track.style.transform = `translateX(${translateX}%)`;
+                
+                // After animation, jump to first slide
+                setTimeout(() => {
+                    currentSlideIndex = 0;
+                    updateSlider(true);
+                }, 800);
+            }
+        } else {
+            currentSlideIndex = (currentSlideIndex + 1) % totalRealSlides;
+            updateSlider();
+        }
     }
     
-    // Previous slide (circular)
     function prevSlide() {
-        currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
-        updateSlider();
+        const totalRealSlides = slides.length - 2; // Exclude clones
+        
+        // If we're at the first slide, we'll animate to the last clone, then jump
+        if (currentSlideIndex === 0) {
+            // Animate to the clone at the beginning
+            const track = document.getElementById('sliderTrack');
+            if (track) {
+                const slideWidthPercent = 33.333;
+                const gapPercent = 2;
+                const totalSlideWidth = slideWidthPercent + gapPercent;
+                const centerPosition = 50 - (slideWidthPercent / 2);
+                const trackPosition = 0; // Position of last clone
+                const currentPosition = trackPosition * totalSlideWidth;
+                const translateX = centerPosition - currentPosition;
+                
+                track.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                track.style.transform = `translateX(${translateX}%)`;
+                
+                // After animation, jump to last slide
+                setTimeout(() => {
+                    currentSlideIndex = totalRealSlides - 1;
+                    updateSlider(true);
+                }, 800);
+            }
+        } else {
+            currentSlideIndex = (currentSlideIndex - 1 + totalRealSlides) % totalRealSlides;
+            updateSlider();
+        }
     }
     
-    // Start auto-slide
+    function goToSlide(index) {
+        const totalRealSlides = slides.length - 2; // Exclude clones
+        if (index >= 0 && index < totalRealSlides) {
+            clearAutoSlide();
+            currentSlideIndex = index;
+            updateSlider();
+            startAutoSlide();
+        }
+    }
+    
     function startAutoSlide() {
         clearAutoSlide();
         autoSlideTimer = setInterval(() => {
@@ -131,7 +342,6 @@
         }, autoSlideInterval);
     }
     
-    // Clear auto-slide
     function clearAutoSlide() {
         if (autoSlideTimer) {
             clearInterval(autoSlideTimer);
@@ -146,3 +356,4 @@
         initSlider();
     }
 })();
+
