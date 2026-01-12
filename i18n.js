@@ -75,6 +75,16 @@ function updateTranslations(lang) {
             openingHoursLabel.textContent = translation;
         }
     }
+    
+    // Update closed message if the restaurant is closed
+    const openingHoursContainer = document.getElementById('openingHours');
+    if (openingHoursContainer && openingHoursContainer.classList.contains('closed')) {
+        const openingHoursElement = document.getElementById('openingHoursTime');
+        if (openingHoursElement) {
+            const closedMessage = getTranslation('openingHours.closedMessage', lang) || 'Closed! Check our opening hours:';
+            openingHoursElement.textContent = closedMessage;
+        }
+    }
 }
 
 // Initialize language on page load

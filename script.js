@@ -4,19 +4,8 @@ let supabaseClient = null;
 function initializeSupabase() {
     if (typeof supabase !== 'undefined' && SUPABASE_CONFIG && SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey) {
         if (SUPABASE_CONFIG.url !== 'YOUR_SUPABASE_URL' && SUPABASE_CONFIG.anonKey !== 'YOUR_SUPABASE_ANON_KEY') {
-            try {
-                supabaseClient = supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
-                console.log('Supabase client initialized successfully');
-                console.log('Supabase URL:', SUPABASE_CONFIG.url);
-                console.log('Table name:', SUPABASE_CONFIG.openingHoursTable || 'opening_hours');
-            } catch (error) {
-                console.error('Error initializing Supabase client:', error);
-            }
-        } else {
-            console.warn('Supabase configuration not set (using placeholder values)');
+            supabaseClient = supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
         }
-    } else {
-        console.warn('Supabase library or configuration not available');
     }
 }
 
@@ -35,10 +24,19 @@ function timeToMinutes(timeStr) {
 
 // Check if current time is between opening and closing time
 function isCurrentlyOpen(openingTime, closingTime) {
+    if (!openingTime || !closingTime) {
+        return false;
+    }
+    
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
     const openingMinutes = timeToMinutes(openingTime);
     const closingMinutes = timeToMinutes(closingTime);
+    
+    // If times couldn't be parsed, assume closed
+    if (openingMinutes === 0 && closingMinutes === 0) {
+        return false;
+    }
     
     // Handle case where closing time is next day (e.g., 02:00)
     if (closingMinutes < openingMinutes) {
@@ -142,12 +140,7 @@ async function loadOpeningHours() {
     const openingHoursContainer = document.getElementById('openingHours');
     const closedPopup = document.getElementById('closedPopup');
     
-    if (!openingHoursElement || !openingHoursContainer) {
-        console.error('Opening hours elements not found');
-        return;
-    }
-    
-    console.log('loadOpeningHours called');
+    if (!openingHoursElement || !openingHoursContainer) return;
 
     // Get current day name (Monday, Tuesday, etc.)
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -161,7 +154,9 @@ async function loadOpeningHours() {
         }
 
         // Ensure popup is hidden initially (will be shown if needed after data fetch)
-        // Don't hide it here - let the logic decide based on data
+        if (closedPopup) {
+            closedPopup.style.display = 'none';
+        }
         
         if (!supabaseClient) {
             openingHoursContainer.style.display = 'none';
@@ -199,7 +194,6 @@ async function loadOpeningHours() {
         }
 
         // Fetch all records to check for case-insensitive match if needed
-        console.log('Fetching all opening hours from table:', tableName);
         const { data: allData, error: allDataError } = await supabaseClient
             .from(tableName)
             .select('*')
@@ -208,21 +202,12 @@ async function loadOpeningHours() {
         // If there's an error fetching all data, log it but continue
         if (allDataError) {
             console.error('Error fetching all opening hours:', allDataError);
-            console.error('Error details:', JSON.stringify(allDataError, null, 2));
-            openingHoursContainer.style.display = 'none';
-            if (closedPopup) {
-                closedPopup.style.display = 'flex';
-            }
-            return;
         }
-        
-        console.log('Fetched opening hours data:', allData);
         
         // Ensure we always have an array to pass to displayAllOpeningHours
         const hoursData = allData || [];
 
         // Fetch opening hours for current day - get the whole record
-        console.log('Fetching opening hours for current day:', currentDay);
         const { data, error } = await supabaseClient
             .from(tableName)
             .select('*')
@@ -251,38 +236,24 @@ async function loadOpeningHours() {
 
         // Get popup element once (already defined earlier in function)
         if (!dayData) {
-            console.warn('No day data found, showing popup');
             openingHoursContainer.style.display = 'none';
             if (closedPopup) {
                 closedPopup.style.display = 'flex';
             }
             return;
         }
-        
-        console.log('Day data found:', dayData);
-        console.log('Opening hours container:', openingHoursContainer);
 
         // Only show/hide after data is successfully fetched
         // Check if currently open
-<<<<<<< HEAD
         const isOpen = isCurrentlyOpen(dayData.opening_time, dayData.closing_time);
         console.log('Opening time:', dayData.opening_time, 'Closing time:', dayData.closing_time, 'Is open:', isOpen);
-        console.log('Will show box - isOpen:', isOpen);
         
         if (isOpen) {
             // Remove closed class if it exists
             openingHoursContainer.classList.remove('closed');
             
-=======
-        if (isCurrentlyOpen(dayData.opening_time, dayData.closing_time)) {
->>>>>>> parent of 634804b (added closed red box)
             const closingTime = formatTime(dayData.closing_time);
-            console.log('Closing time formatted:', closingTime, 'from:', dayData.closing_time);
-            if (!closingTime) {
-                console.warn('Closing time is empty or undefined!');
-            }
             openingHoursElement.textContent = `${closingTime} | `;
-            console.log('Opening hours element textContent set to:', openingHoursElement.textContent);
             
             // Update date display
             const openingHoursDateElement = document.getElementById('openingHoursDate');
@@ -296,20 +267,23 @@ async function loadOpeningHours() {
                 openingHoursDateElement.textContent = `${currentDayName}, ${monthName} ${day}`;
             }
             
+            // Show all elements
+            const openingHoursLabel = openingHoursContainer.querySelector('.opening-hours-label');
+            const openingHoursDate = document.getElementById('openingHoursDate');
+            const openingHoursArrow = openingHoursContainer.querySelector('.opening-hours-arrow');
+            if (openingHoursLabel) openingHoursLabel.style.display = '';
+            if (openingHoursDate) openingHoursDate.style.display = '';
+            if (openingHoursArrow) openingHoursArrow.style.display = '';
+            
             // Update dropdown with all opening hours
             updateOpeningHoursDropdown(hoursData);
             
             // Only show after data is fetched
-            console.log('Setting opening hours container display to flex (open)');
-            openingHoursContainer.style.setProperty('display', 'flex', 'important');
-            openingHoursContainer.style.visibility = 'visible';
+            openingHoursContainer.style.display = 'flex';
             if (closedPopup) {
                 closedPopup.style.display = 'none';
             }
-            console.log('Opening hours container display set to:', openingHoursContainer.style.display);
-            console.log('Computed display:', window.getComputedStyle(openingHoursContainer).display);
         } else {
-<<<<<<< HEAD
             // Show red "Closed" box when closed
             // Remove any previous state classes
             openingHoursContainer.classList.remove('closed');
@@ -345,38 +319,20 @@ async function loadOpeningHours() {
             updateOpeningHoursDropdown(hoursData);
             
             // Show the box with red background
-            console.log('Setting opening hours container display to flex (closed)');
-            openingHoursContainer.style.setProperty('display', 'flex', 'important');
-            openingHoursContainer.style.visibility = 'visible';
+            openingHoursContainer.style.display = 'flex';
             openingHoursContainer.style.background = 'rgba(239, 68, 68, 0.9)';
             openingHoursContainer.style.color = 'white';
             
             // Also show the closed popup
-            console.log('Attempting to show closed popup');
-=======
-            // Hide the box when closed and show popup
-            openingHoursContainer.style.display = 'none';
->>>>>>> parent of 634804b (added closed red box)
             if (closedPopup) {
-                console.log('Closed popup element found, setting display to flex');
-                closedPopup.style.setProperty('display', 'flex', 'important');
-                console.log('Closed popup display set to:', closedPopup.style.display);
-                console.log('Closed popup computed display:', window.getComputedStyle(closedPopup).display);
-            } else {
-                console.error('Closed popup element not found!');
+                closedPopup.style.display = 'flex';
             }
-<<<<<<< HEAD
             
             console.log('Restaurant is closed - showing red box', {
                 container: openingHoursContainer,
                 hasClosedClass: openingHoursContainer.classList.contains('closed'),
-                display: openingHoursContainer.style.display,
-                computedDisplay: window.getComputedStyle(openingHoursContainer).display,
-                closedPopup: closedPopup,
-                closedPopupDisplay: closedPopup ? closedPopup.style.display : 'element not found'
+                display: openingHoursContainer.style.display
             });
-=======
->>>>>>> parent of 634804b (added closed red box)
         }
     } catch (error) {
         // Hide box on error and show popup
@@ -445,6 +401,7 @@ function closeClosedPopup() {
 // Start when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     waitForConfigAndLoad();
+    
     // Add close button functionality
     const closeButton = document.getElementById('closedPopupClose');
     if (closeButton) {
@@ -580,79 +537,37 @@ if ('loading' in HTMLImageElement.prototype) {
     document.body.appendChild(script);
 }
 
-// Gallery Slider - 3-image carousel functionality
+// Gallery Slider - Auto scroll functionality
 let currentSlideIndex = 0;
 let gallerySlides = [];
 let galleryAutoScrollInterval = null;
 
 function initGallerySlider() {
-    gallerySlides = Array.from(document.querySelectorAll('.gallery-slide'));
-    if (gallerySlides.length === 0) {
-        console.warn('No gallery slides found');
-        return;
-    }
+    gallerySlides = document.querySelectorAll('.gallery-slide');
+    if (gallerySlides.length === 0) return;
     
-    // Reset current slide index
-    currentSlideIndex = 0;
-    
-    // Set initial state - show all images with one centered
-    updateSliderDisplay();
-    
-    // Clear any existing interval
-    if (galleryAutoScrollInterval) {
-        clearInterval(galleryAutoScrollInterval);
+    // Show first slide
+    if (gallerySlides.length > 0) {
+        gallerySlides[0].classList.add('active');
     }
     
     // Auto scroll every 3 seconds
     galleryAutoScrollInterval = setInterval(() => {
         nextGallerySlide();
     }, 3000);
-    
-    console.log('Gallery slider initialized with', gallerySlides.length, 'slides');
-}
-
-function updateSliderDisplay() {
-    if (gallerySlides.length === 0) return;
-    
-    const totalSlides = gallerySlides.length;
-    
-    // Show all slides in the background, but make them smaller
-    gallerySlides.forEach((slide, index) => {
-        slide.classList.remove('active', 'prev', 'next');
-        slide.style.display = 'block';
-        slide.style.visibility = 'visible';
-        slide.style.opacity = '0.3';
-        slide.style.transform = 'translate(-50%, -50%) scale(0.4)';
-        slide.style.filter = 'blur(3px)';
-        slide.style.zIndex = '1';
-    });
-    
-    // Make the active slide larger and centered
-    gallerySlides[currentSlideIndex].classList.add('active');
-    gallerySlides[currentSlideIndex].style.opacity = '1';
-    gallerySlides[currentSlideIndex].style.transform = 'translate(-50%, -50%) scale(1)';
-    gallerySlides[currentSlideIndex].style.filter = 'blur(0)';
-    gallerySlides[currentSlideIndex].style.zIndex = '10';
 }
 
 function nextGallerySlide() {
-    if (gallerySlides.length === 0) {
-        // Re-initialize if slides aren't found
-        gallerySlides = Array.from(document.querySelectorAll('.gallery-slide'));
-        if (gallerySlides.length === 0) return;
-    }
+    if (gallerySlides.length === 0) return;
+    
+    // Remove active class from current slide
+    gallerySlides[currentSlideIndex].classList.remove('active');
     
     // Move to next slide
     currentSlideIndex = (currentSlideIndex + 1) % gallerySlides.length;
-    updateSliderDisplay();
-}
-
-function prevGallerySlide() {
-    if (gallerySlides.length === 0) return;
     
-    // Move to previous slide
-    currentSlideIndex = (currentSlideIndex - 1 + gallerySlides.length) % gallerySlides.length;
-    updateSliderDisplay();
+    // Add active class to new slide
+    gallerySlides[currentSlideIndex].classList.add('active');
 }
 
 // Gallery Modal functionality
@@ -662,10 +577,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.querySelector('.gallery-modal-close');
     const prevBtn = document.querySelector('.gallery-modal-prev');
     const nextBtn = document.querySelector('.gallery-modal-next');
-    const allGallerySlides = document.querySelectorAll('.gallery-slide');
+    const gallerySlides = document.querySelectorAll('.gallery-slide');
     
     // Store all gallery images
-    const galleryImages = Array.from(allGallerySlides).map(slide => {
+    const galleryImages = Array.from(gallerySlides).map(slide => {
         const wrapper = slide.querySelector('.gallery-slide-wrapper');
         const img = wrapper ? wrapper.querySelector('img') : slide.querySelector('img');
         return {
@@ -678,36 +593,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize gallery slider
     initGallerySlider();
-    
-    // Add navigation button handlers
-    const prevBtn = document.querySelector('.gallery-slider-nav.prev');
-    const nextBtn = document.querySelector('.gallery-slider-nav.next');
-    
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            if (galleryAutoScrollInterval) {
-                clearInterval(galleryAutoScrollInterval);
-            }
-            prevGallerySlide();
-            // Restart auto-scroll
-            galleryAutoScrollInterval = setInterval(() => {
-                nextGallerySlide();
-            }, 3000);
-        });
-    }
-    
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            if (galleryAutoScrollInterval) {
-                clearInterval(galleryAutoScrollInterval);
-            }
-            nextGallerySlide();
-            // Restart auto-scroll
-            galleryAutoScrollInterval = setInterval(() => {
-                nextGallerySlide();
-            }, 3000);
-        });
-    }
 
     // Function to show image at specific index
     function showImage(index) {
@@ -726,7 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Open modal when clicking on gallery slide
-    allGallerySlides.forEach((slide, index) => {
+    gallerySlides.forEach((slide, index) => {
         slide.addEventListener('click', (e) => {
             e.preventDefault();
             if (modal && modalImg) {
@@ -734,7 +619,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (galleryAutoScrollInterval) {
                     clearInterval(galleryAutoScrollInterval);
                 }
-                // Use the actual slide index, not the visual index
                 currentImageIndex = index;
                 modal.classList.add('active');
                 showImage(currentImageIndex);

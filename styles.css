@@ -94,6 +94,32 @@ body {
     margin-right: -1rem;
 }
 
+.opening-hours-display.closed {
+    background: rgba(239, 68, 68, 0.9) !important;
+    color: white !important;
+}
+
+.opening-hours-display.closed .opening-hours-time {
+    color: white !important;
+}
+
+.opening-hours-display.closed .opening-hours-dropdown {
+    background: rgba(239, 68, 68, 1) !important;
+}
+
+.opening-hours-display.closed .opening-hours-dropdown .hours-item {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-light) !important;
+}
+
+.opening-hours-display.closed .opening-hours-dropdown .hours-day {
+    color: var(--text-light) !important;
+}
+
+.opening-hours-display.closed .opening-hours-dropdown .hours-time {
+    color: var(--text-light) !important;
+}
+
 .opening-hours-dropdown {
     position: absolute;
     top: 100%;
@@ -687,168 +713,87 @@ body {
 }
 
 /* Gallery Slider */
-/* Modern Gallery Slider */
-.modern-gallery-slider {
+.gallery-slider {
     position: relative;
     width: 100%;
-    max-width: 900px;
+    max-width: 300px;
     margin: 3rem auto 0;
-    padding: 0 1rem;
+    overflow: hidden;
+    border-radius: 15px;
 }
 
-.slider-container {
+.gallery-slider-container {
     position: relative;
     width: 100%;
-    max-width: 100%;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    background: rgba(26, 26, 26, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    height: 450px;
+}
+
+.gallery-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    cursor: pointer;
+    border-radius: 15px;
+    overflow: visible;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.slider-track {
+.gallery-slide.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.gallery-slide-wrapper {
     position: relative;
     width: 100%;
-    display: flex;
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    align-items: center;
-    justify-content: flex-start;
-    gap: 2rem;
-    padding: 2rem 0;
+    height: 100%;
+}
+
+.gallery-slide-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 15px;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-speed;
+    transform: translateZ(0);
     will-change: transform;
 }
 
-.slider-slide {
-    position: relative;
-    flex-shrink: 0;
-    opacity: 0.5;
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: scale(0.6);
-    pointer-events: none;
-    width: calc(33.333% - 1.33rem);
-    min-width: calc(33.333% - 1.33rem);
-}
-
-.slider-slide.prev,
-.slider-slide.next {
-    opacity: 0.5;
-    transform: scale(0.6);
-    pointer-events: auto;
-}
-
-.slider-slide.active {
-    opacity: 1;
-    transform: scale(1);
-    z-index: 2;
-    pointer-events: auto;
-}
-
-.slider-slide img {
-    max-width: 100%;
-    max-height: 80vh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: optimize-quality;
-    transition: transform 0.3s ease;
-}
-
-.slider-slide.active img {
-    max-height: 80vh;
-}
-
-.slider-slide.prev img,
-.slider-slide.next img {
-    max-height: 50vh;
-}
-
-.slider-nav {
+.gallery-overlay {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
-    transition: all 0.3s ease;
     opacity: 0;
+    transition: var(--transition);
+    pointer-events: none;
+    border-radius: 15px;
 }
 
-.modern-gallery-slider:hover .slider-nav {
+.gallery-slide-wrapper:hover .gallery-overlay {
     opacity: 1;
 }
 
-.slider-nav:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.4);
-    transform: translateY(-50%) scale(1.1);
+.gallery-slide-wrapper:hover .gallery-slide-img {
+    transform: scale(1.05);
 }
 
-.slider-nav:active {
-    transform: translateY(-50%) scale(0.95);
-}
-
-.slider-nav.prev {
-    left: 20px;
-}
-
-.slider-nav.next {
-    right: 20px;
-}
-
-.slider-nav svg {
-    width: 24px;
-    height: 24px;
-}
-
-.slider-indicators {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-    z-index: 10;
-}
-
-.slider-indicator {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.slider-indicator.active {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: rgba(255, 255, 255, 1);
-    transform: scale(1.2);
-}
-
-.slider-indicator:hover {
-    background: rgba(255, 255, 255, 0.7);
-    transform: scale(1.1);
+.gallery-overlay span {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 /* Gallery Modal */
@@ -1374,46 +1319,6 @@ body {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
 
-    .modern-gallery-slider {
-        padding: 0 0.5rem;
-    }
-    
-    .slider-container {
-        border-radius: 15px;
-    }
-    
-    .slider-slide img {
-        max-height: 60vh;
-    }
-    
-    .slider-nav {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .slider-nav.prev {
-        left: 10px;
-    }
-    
-    .slider-nav.next {
-        right: 10px;
-    }
-    
-    .slider-nav svg {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .slider-indicators {
-        bottom: 15px;
-        gap: 8px;
-    }
-    
-    .slider-indicator {
-        width: 8px;
-        height: 8px;
-    }
-    
     .gallery-slider {
         max-width: 100%;
     }
