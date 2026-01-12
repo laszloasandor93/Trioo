@@ -24,10 +24,19 @@ function timeToMinutes(timeStr) {
 
 // Check if current time is between opening and closing time
 function isCurrentlyOpen(openingTime, closingTime) {
+    if (!openingTime || !closingTime) {
+        return false;
+    }
+    
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
     const openingMinutes = timeToMinutes(openingTime);
     const closingMinutes = timeToMinutes(closingTime);
+    
+    // If times couldn't be parsed, assume closed
+    if (openingMinutes === 0 && closingMinutes === 0) {
+        return false;
+    }
     
     // Handle case where closing time is next day (e.g., 02:00)
     if (closingMinutes < openingMinutes) {
@@ -236,7 +245,13 @@ async function loadOpeningHours() {
 
         // Only show/hide after data is successfully fetched
         // Check if currently open
-        if (isCurrentlyOpen(dayData.opening_time, dayData.closing_time)) {
+        const isOpen = isCurrentlyOpen(dayData.opening_time, dayData.closing_time);
+        console.log('Opening time:', dayData.opening_time, 'Closing time:', dayData.closing_time, 'Is open:', isOpen);
+        
+        if (isOpen) {
+            // Remove closed class if it exists
+            openingHoursContainer.classList.remove('closed');
+            
             const closingTime = formatTime(dayData.closing_time);
             openingHoursElement.textContent = `${closingTime} | `;
             
@@ -252,6 +267,14 @@ async function loadOpeningHours() {
                 openingHoursDateElement.textContent = `${currentDayName}, ${monthName} ${day}`;
             }
             
+            // Show all elements
+            const openingHoursLabel = openingHoursContainer.querySelector('.opening-hours-label');
+            const openingHoursDate = document.getElementById('openingHoursDate');
+            const openingHoursArrow = openingHoursContainer.querySelector('.opening-hours-arrow');
+            if (openingHoursLabel) openingHoursLabel.style.display = '';
+            if (openingHoursDate) openingHoursDate.style.display = '';
+            if (openingHoursArrow) openingHoursArrow.style.display = '';
+            
             // Update dropdown with all opening hours
             updateOpeningHoursDropdown(hoursData);
             
@@ -261,11 +284,55 @@ async function loadOpeningHours() {
                 closedPopup.style.display = 'none';
             }
         } else {
-            // Hide the box when closed and show popup
-            openingHoursContainer.style.display = 'none';
+            // Show red "Closed" box when closed
+            // Remove any previous state classes
+            openingHoursContainer.classList.remove('closed');
+            // Force reflow to ensure class removal is processed
+            void openingHoursContainer.offsetHeight;
+            // Add closed class
+            openingHoursContainer.classList.add('closed');
+            
+            // Hide normal elements and show "Closed" text
+            const openingHoursLabel = openingHoursContainer.querySelector('.opening-hours-label');
+            const openingHoursDate = document.getElementById('openingHoursDate');
+            const openingHoursArrow = openingHoursContainer.querySelector('.opening-hours-arrow');
+            if (openingHoursLabel) openingHoursLabel.style.display = 'none';
+            if (openingHoursDate) openingHoursDate.style.display = 'none';
+            // Show arrow when closed so user knows there's a dropdown
+            if (openingHoursArrow) {
+                openingHoursArrow.style.display = '';
+                openingHoursArrow.style.color = 'white';
+            }
+            
+            // Set "Closed" text using translation
+            const currentLang = localStorage.getItem('language') || 'en';
+            const closedMessage = typeof getTranslation !== 'undefined' 
+                ? (getTranslation('openingHours.closedMessage', currentLang) || 'Closed! Check our opening hours:')
+                : 'Closed! Check our opening hours:';
+            openingHoursElement.textContent = closedMessage;
+            
+            // Ensure the time element is visible and styled correctly
+            openingHoursElement.style.display = '';
+            openingHoursElement.style.color = 'white';
+            
+            // Update dropdown with all opening hours (so it shows on hover)
+            updateOpeningHoursDropdown(hoursData);
+            
+            // Show the box with red background
+            openingHoursContainer.style.display = 'flex';
+            openingHoursContainer.style.background = 'rgba(239, 68, 68, 0.9)';
+            openingHoursContainer.style.color = 'white';
+            
+            // Also show the closed popup
             if (closedPopup) {
                 closedPopup.style.display = 'flex';
             }
+            
+            console.log('Restaurant is closed - showing red box', {
+                container: openingHoursContainer,
+                hasClosedClass: openingHoursContainer.classList.contains('closed'),
+                display: openingHoursContainer.style.display
+            });
         }
     } catch (error) {
         // Hide box on error and show popup
