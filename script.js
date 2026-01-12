@@ -537,154 +537,178 @@ if ('loading' in HTMLImageElement.prototype) {
     document.body.appendChild(script);
 }
 
-// Gallery Slider - Auto scroll functionality
-let currentSlideIndex = 0;
-let gallerySlides = [];
-let galleryAutoScrollInterval = null;
-
-function initGallerySlider() {
-    gallerySlides = document.querySelectorAll('.gallery-slide');
-    if (gallerySlides.length === 0) return;
+// Modern Gallery Slider - Circular pattern with automatic display
+(function() {
+    'use strict';
     
-    // Show first slide
-    if (gallerySlides.length > 0) {
-        gallerySlides[0].classList.add('active');
-    }
+    const galleryFolder = 'pictures/gallery/';
+    const imageCount = 12;
+    const autoSlideInterval = 4000; // 4 seconds
     
-    // Auto scroll every 3 seconds
-    galleryAutoScrollInterval = setInterval(() => {
-        nextGallerySlide();
-    }, 3000);
-}
-
-function nextGallerySlide() {
-    if (gallerySlides.length === 0) return;
+    let currentSlideIndex = 0;
+    let slides = [];
+    let autoSlideTimer = null;
+    let isUserInteracting = false;
     
-    // Remove active class from current slide
-    gallerySlides[currentSlideIndex].classList.remove('active');
-    
-    // Move to next slide
-    currentSlideIndex = (currentSlideIndex + 1) % gallerySlides.length;
-    
-    // Add active class to new slide
-    gallerySlides[currentSlideIndex].classList.add('active');
-}
-
-// Gallery Modal functionality
-document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('galleryModal');
-    const modalImg = document.getElementById('galleryModalImg');
-    const closeBtn = document.querySelector('.gallery-modal-close');
-    const prevBtn = document.querySelector('.gallery-modal-prev');
-    const nextBtn = document.querySelector('.gallery-modal-next');
-    const gallerySlides = document.querySelectorAll('.gallery-slide');
-    
-    // Store all gallery images
-    const galleryImages = Array.from(gallerySlides).map(slide => {
-        const wrapper = slide.querySelector('.gallery-slide-wrapper');
-        const img = wrapper ? wrapper.querySelector('img') : slide.querySelector('img');
-        return {
-            src: img ? img.src : '',
-            alt: img ? (img.alt || 'Gallery Image') : 'Gallery Image'
-        };
-    });
-    
-    let currentImageIndex = 0;
-    
-    // Initialize gallery slider
-    initGallerySlider();
-
-    // Function to show image at specific index
-    function showImage(index) {
-        if (index < 0) {
-            currentImageIndex = galleryImages.length - 1;
-        } else if (index >= galleryImages.length) {
-            currentImageIndex = 0;
-        } else {
-            currentImageIndex = index;
+    // Initialize slider
+    function initSlider() {
+        console.log('initSlider called');
+        const track = document.getElementById('gallerySliderTrack');
+        const indicators = document.getElementById('galleryIndicators');
+        
+        console.log('Track element:', track);
+        console.log('Indicators element:', indicators);
+        
+        if (!track || !indicators) {
+            console.error('Slider elements not found');
+            return;
         }
         
-        if (modalImg && galleryImages[currentImageIndex]) {
-            modalImg.src = galleryImages[currentImageIndex].src;
-            modalImg.alt = galleryImages[currentImageIndex].alt;
+        console.log('Slider elements found, initializing...');
+        
+        // Clear existing content
+        track.innerHTML = '';
+        indicators.innerHTML = '';
+        slides = [];
+        
+        // Create slides for images 1-12
+        for (let i = 1; i <= imageCount; i++) {
+            const slide = document.createElement('div');
+            slide.className = 'slider-slide' + (i === 1 ? ' active' : '');
+            slide.setAttribute('data-index', i - 1);
+            
+            const img = document.createElement('img');
+            img.src = `${galleryFolder}${i}.jpg`;
+            img.alt = `TRIOOO hookah Gallery ${i}`;
+            img.loading = 'lazy';
+            
+            slide.appendChild(img);
+            track.appendChild(slide);
+            
+            // Create indicator
+            const indicator = document.createElement('div');
+            indicator.className = 'slider-indicator' + (i === 1 ? ' active' : '');
+            indicator.setAttribute('data-index', i - 1);
+            indicator.addEventListener('click', () => goToSlide(i - 1));
+            indicators.appendChild(indicator);
+            
+            slides.push(slide);
         }
-    }
-
-    // Open modal when clicking on gallery slide
-    gallerySlides.forEach((slide, index) => {
-        slide.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (modal && modalImg) {
-                // Pause auto-scroll when modal opens
-                if (galleryAutoScrollInterval) {
-                    clearInterval(galleryAutoScrollInterval);
+        
+        // Setup navigation buttons
+        const prevBtn = document.getElementById('galleryPrevBtn');
+        const nextBtn = document.getElementById('galleryNextBtn');
+        
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                isUserInteracting = true;
+                clearAutoSlide();
+                prevSlide();
+                resetAutoSlide();
+            });
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                isUserInteracting = true;
+                clearAutoSlide();
+                nextSlide();
+                resetAutoSlide();
+            });
+        }
+        
+        // Pause auto-slide on hover
+        const container = track.closest('.slider-container');
+        if (container) {
+            container.addEventListener('mouseenter', () => {
+                clearAutoSlide();
+            });
+            container.addEventListener('mouseleave', () => {
+                if (!isUserInteracting) {
+                    startAutoSlide();
                 }
-                currentImageIndex = index;
-                modal.classList.add('active');
-                showImage(currentImageIndex);
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            });
+        }
+        
+        // Start auto-slide
+        startAutoSlide();
+    }
+    
+    // Update slider display
+    function updateSlider() {
+        slides.forEach((slide, index) => {
+            slide.classList.remove('active');
+            if (index === currentSlideIndex) {
+                slide.classList.add('active');
             }
         });
-    });
-
-    // Navigate to previous image
-    prevBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        showImage(currentImageIndex - 1);
-    });
-
-    // Navigate to next image
-    nextBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        showImage(currentImageIndex + 1);
-    });
-
-    // Close modal when clicking the close button
-    closeBtn.addEventListener('click', () => {
-        modal.classList.remove('active');
-        document.body.style.overflow = ''; // Restore scrolling
-        // Resume auto-scroll when modal closes
-        if (gallerySlides.length > 0) {
-            galleryAutoScrollInterval = setInterval(() => {
-                nextGallerySlide();
-            }, 3000);
-        }
-    });
-
-    // Close modal when clicking outside the image
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.classList.remove('active');
-            document.body.style.overflow = ''; // Restore scrolling
-            // Resume auto-scroll when modal closes
-            if (gallerySlides.length > 0) {
-                galleryAutoScrollInterval = setInterval(() => {
-                    nextGallerySlide();
-                }, 3000);
-            }
-        }
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (!modal.classList.contains('active')) return;
         
-        if (e.key === 'Escape') {
-            modal.classList.remove('active');
-            document.body.style.overflow = ''; // Restore scrolling
-            // Resume auto-scroll when modal closes
-            if (gallerySlides.length > 0) {
-                galleryAutoScrollInterval = setInterval(() => {
-                    nextGallerySlide();
-                }, 3000);
+        // Update indicators
+        const indicatorElements = document.querySelectorAll('#galleryIndicators .slider-indicator');
+        indicatorElements.forEach((indicator, index) => {
+            indicator.classList.remove('active');
+            if (index === currentSlideIndex) {
+                indicator.classList.add('active');
             }
-        } else if (e.key === 'ArrowLeft') {
-            showImage(currentImageIndex - 1);
-        } else if (e.key === 'ArrowRight') {
-            showImage(currentImageIndex + 1);
+        });
+    }
+    
+    // Go to specific slide
+    function goToSlide(index) {
+        if (index < 0 || index >= slides.length) return;
+        isUserInteracting = true;
+        clearAutoSlide();
+        currentSlideIndex = index;
+        updateSlider();
+        resetAutoSlide();
+    }
+    
+    // Next slide (circular)
+    function nextSlide() {
+        currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+        updateSlider();
+    }
+    
+    // Previous slide (circular)
+    function prevSlide() {
+        currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+        updateSlider();
+    }
+    
+    // Start auto-slide
+    function startAutoSlide() {
+        clearAutoSlide();
+        autoSlideTimer = setInterval(() => {
+            if (!isUserInteracting) {
+                nextSlide();
+            }
+        }, autoSlideInterval);
+    }
+    
+    // Clear auto-slide
+    function clearAutoSlide() {
+        if (autoSlideTimer) {
+            clearInterval(autoSlideTimer);
+            autoSlideTimer = null;
         }
-    });
-});
+    }
+    
+    // Reset auto-slide after user interaction
+    function resetAutoSlide() {
+        setTimeout(() => {
+            isUserInteracting = false;
+            startAutoSlide();
+        }, autoSlideInterval);
+    }
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSlider);
+    } else {
+        // DOM is already ready, but wait a bit to ensure all elements are rendered
+        setTimeout(initSlider, 0);
+    }
+})();
 
 // Reserve button popup functionality
 document.addEventListener('DOMContentLoaded', () => {

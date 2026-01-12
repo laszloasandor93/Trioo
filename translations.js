@@ -35,12 +35,12 @@ const translations = {
         // Gallery
         gallery: {
             title: "Gallery",
-            subtitle: "Experience the beauty of TRIOOO hookah",
+            subtitle: "Experience the beauty of TRIOOO Hookah",
             view: "View"
         },
         // About
         about: {
-            title: "About TRIOOO hookah",
+            title: "About TRIOOO Hookah",
             text1: "TRIOOO (originally known as Hookah Trio) has been a popular hookah bar in Târgu Mureș since 2021, offering special hookah flavors and refreshing drinks. We provide high-quality service and a pleasant environment where our guests can relax and enjoy the unique hookah experience.",
             text2: "Through our Instagram and Facebook pages, we share our latest promotions, new flavors, and events that attract the local smoking community. Follow us too!",
             happyCustomers: "Happy Customers",
@@ -103,7 +103,7 @@ const translations = {
         products: {
             title: "Categoriile noastre de narghilea",
             exclusive: "Narghilea Exclusivă",
-            exclusiveDesc: "Doar arome blonde",
+            exclusiveDesc: "Doar arome Blonde",
             darkMix: "Narghilea Dark MIX",
             darkMixDesc: "Arome Dark + Blonde",
             luxury: "Narghilea Luxury",
@@ -112,12 +112,12 @@ const translations = {
         // Gallery
         gallery: {
             title: "Galerie",
-            subtitle: "Experimentează frumusețea narghilei la TRIOOO",
+            subtitle: "Experimentează frumusețea narghilei la TRIOOO Hookah",
             view: "Vizualizează"
         },
         // About
         about: {
-            title: "Despre TRIOOO hookah",
+            title: "Despre TRIOOO Hookah",
             text1: "TRIOOO (cunoscut anterior ca Hookah Trio) este un bar de narghilea popular în Târgu Mureș din 2021, oferind arome speciale de narghilea și băuturi răcoritoare. Oferim servicii de înaltă calitate și un mediu plăcut unde oaspeții noștri se pot relaxa și bucura de experiența unică de narghilea.",
             text2: "Prin paginile noastre de Instagram și Facebook, împărtășim ultimele noastre promoții, arome noi și evenimente care atrag comunitatea locală. Urmărește-ne și tu!",
             happyCustomers: "Clienți Mulțumiți",
@@ -189,12 +189,12 @@ const translations = {
         // Gallery
         gallery: {
             title: "Galéria",
-            subtitle: "Tapasztald meg a TRIOOO vizipipázó szépségét",
+            subtitle: "Tapasztald meg a TRIOOO Hookah vizipipázó szépségét",
             view: "Megtekintés"
         },
         // About
         about: {
-            title: "A TRIOOO hookah-ról",
+            title: "A TRIOOO Hookah-ról",
             text1: "A TRIOOO (korábban Hookah Trio néven ismert) egy népszerű vvizipipa bár Marosvásárhelyen 2021 óta, amely különleges vizipipa ízeket és frissítő italokat kínál. Magas színvonalú szolgáltatást és kellemes környezetet biztosítunk, ahol vendégeink pihenhetnek és élvezhetik az egyedi vizipipa élményt.",
             text2: "Instagram és Facebook oldalainkon keresztül megosztjuk legújabb akcióinkat és eseményeinket, amelyek a helyi pipázó közösséget vonzzák. Kövesd te is!",
             happyCustomers: "Elégedett Vendégek",
