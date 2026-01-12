@@ -537,37 +537,79 @@ if ('loading' in HTMLImageElement.prototype) {
     document.body.appendChild(script);
 }
 
-// Gallery Slider - Auto scroll functionality
+// Gallery Slider - 3-image carousel functionality
 let currentSlideIndex = 0;
 let gallerySlides = [];
 let galleryAutoScrollInterval = null;
 
 function initGallerySlider() {
-    gallerySlides = document.querySelectorAll('.gallery-slide');
-    if (gallerySlides.length === 0) return;
+    gallerySlides = Array.from(document.querySelectorAll('.gallery-slide'));
+    if (gallerySlides.length === 0) {
+        console.warn('No gallery slides found');
+        return;
+    }
     
-    // Show first slide
-    if (gallerySlides.length > 0) {
-        gallerySlides[0].classList.add('active');
+    // Reset current slide index
+    currentSlideIndex = 0;
+    
+    // Set initial state - show all images with one centered
+    updateSliderDisplay();
+    
+    // Clear any existing interval
+    if (galleryAutoScrollInterval) {
+        clearInterval(galleryAutoScrollInterval);
     }
     
     // Auto scroll every 3 seconds
     galleryAutoScrollInterval = setInterval(() => {
         nextGallerySlide();
     }, 3000);
+    
+    console.log('Gallery slider initialized with', gallerySlides.length, 'slides');
+}
+
+function updateSliderDisplay() {
+    if (gallerySlides.length === 0) return;
+    
+    const totalSlides = gallerySlides.length;
+    
+    // Show all slides in the background, but make them smaller
+    gallerySlides.forEach((slide, index) => {
+        slide.classList.remove('active', 'prev', 'next');
+        slide.style.display = 'block';
+        slide.style.visibility = 'visible';
+        slide.style.opacity = '0.3';
+        slide.style.transform = 'translate(-50%, -50%) scale(0.4)';
+        slide.style.filter = 'blur(3px)';
+        slide.style.zIndex = '1';
+    });
+    
+    // Make the active slide larger and centered
+    gallerySlides[currentSlideIndex].classList.add('active');
+    gallerySlides[currentSlideIndex].style.opacity = '1';
+    gallerySlides[currentSlideIndex].style.transform = 'translate(-50%, -50%) scale(1)';
+    gallerySlides[currentSlideIndex].style.filter = 'blur(0)';
+    gallerySlides[currentSlideIndex].style.zIndex = '10';
 }
 
 function nextGallerySlide() {
-    if (gallerySlides.length === 0) return;
-    
-    // Remove active class from current slide
-    gallerySlides[currentSlideIndex].classList.remove('active');
+    if (gallerySlides.length === 0) {
+        // Re-initialize if slides aren't found
+        gallerySlides = Array.from(document.querySelectorAll('.gallery-slide'));
+        if (gallerySlides.length === 0) return;
+    }
     
     // Move to next slide
     currentSlideIndex = (currentSlideIndex + 1) % gallerySlides.length;
+    updateSliderDisplay();
+}
+
+function prevGallerySlide() {
+    if (gallerySlides.length === 0) return;
     
-    // Add active class to new slide
-    gallerySlides[currentSlideIndex].classList.add('active');
+    // Move to previous slide
+    currentSlideIndex = (currentSlideIndex - 1 + gallerySlides.length) % gallerySlides.length;
+    updateSliderDisplay();
 }
 
 // Gallery Modal functionality
@@ -577,10 +619,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.querySelector('.gallery-modal-close');
     const prevBtn = document.querySelector('.gallery-modal-prev');
     const nextBtn = document.querySelector('.gallery-modal-next');
-    const gallerySlides = document.querySelectorAll('.gallery-slide');
+    const allGallerySlides = document.querySelectorAll('.gallery-slide');
     
     // Store all gallery images
-    const galleryImages = Array.from(gallerySlides).map(slide => {
+    const galleryImages = Array.from(allGallerySlides).map(slide => {
         const wrapper = slide.querySelector('.gallery-slide-wrapper');
         const img = wrapper ? wrapper.querySelector('img') : slide.querySelector('img');
         return {
@@ -593,6 +635,36 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize gallery slider
     initGallerySlider();
+    
+    // Add navigation button handlers
+    const prevBtn = document.querySelector('.gallery-slider-nav.prev');
+    const nextBtn = document.querySelector('.gallery-slider-nav.next');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (galleryAutoScrollInterval) {
+                clearInterval(galleryAutoScrollInterval);
+            }
+            prevGallerySlide();
+            // Restart auto-scroll
+            galleryAutoScrollInterval = setInterval(() => {
+                nextGallerySlide();
+            }, 3000);
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (galleryAutoScrollInterval) {
+                clearInterval(galleryAutoScrollInterval);
+            }
+            nextGallerySlide();
+            // Restart auto-scroll
+            galleryAutoScrollInterval = setInterval(() => {
+                nextGallerySlide();
+            }, 3000);
+        });
+    }
 
     // Function to show image at specific index
     function showImage(index) {
@@ -611,7 +683,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Open modal when clicking on gallery slide
-    gallerySlides.forEach((slide, index) => {
+    allGallerySlides.forEach((slide, index) => {
         slide.addEventListener('click', (e) => {
             e.preventDefault();
             if (modal && modalImg) {
@@ -619,6 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (galleryAutoScrollInterval) {
                     clearInterval(galleryAutoScrollInterval);
                 }
+                // Use the actual slide index, not the visual index
                 currentImageIndex = index;
                 modal.classList.add('active');
                 showImage(currentImageIndex);
