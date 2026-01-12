@@ -282,7 +282,12 @@ async function loadOpeningHours() {
             openingHoursContainer.classList.remove('closed');
             
             const closingTime = formatTime(dayData.closing_time);
+            console.log('Closing time formatted:', closingTime, 'from:', dayData.closing_time);
+            if (!closingTime) {
+                console.warn('Closing time is empty or undefined!');
+            }
             openingHoursElement.textContent = `${closingTime} | `;
+            console.log('Opening hours element textContent set to:', openingHoursElement.textContent);
             
             // Update date display
             const openingHoursDateElement = document.getElementById('openingHoursDate');
