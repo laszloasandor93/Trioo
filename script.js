@@ -201,7 +201,7 @@ async function loadOpeningHours() {
         
         // If there's an error fetching all data, log it but continue
         if (allDataError) {
-            console.error('Error fetching all opening hours:', allDataError);
+            // Error fetching opening hours
         }
         
         // Ensure we always have an array to pass to displayAllOpeningHours
@@ -246,7 +246,6 @@ async function loadOpeningHours() {
         // Only show/hide after data is successfully fetched
         // Check if currently open
         const isOpen = isCurrentlyOpen(dayData.opening_time, dayData.closing_time);
-        console.log('Opening time:', dayData.opening_time, 'Closing time:', dayData.closing_time, 'Is open:', isOpen);
         
         if (isOpen) {
             // Remove closed class if it exists
@@ -327,12 +326,6 @@ async function loadOpeningHours() {
             if (closedPopup) {
                 closedPopup.style.display = 'flex';
             }
-            
-            console.log('Restaurant is closed - showing red box', {
-                container: openingHoursContainer,
-                hasClosedClass: openingHoursContainer.classList.contains('closed'),
-                display: openingHoursContainer.style.display
-            });
         }
     } catch (error) {
         // Hide box on error and show popup
@@ -552,19 +545,12 @@ if ('loading' in HTMLImageElement.prototype) {
     
     // Initialize slider
     function initSlider() {
-        console.log('initSlider called');
         const track = document.getElementById('gallerySliderTrack');
         const indicators = document.getElementById('galleryIndicators');
         
-        console.log('Track element:', track);
-        console.log('Indicators element:', indicators);
-        
         if (!track || !indicators) {
-            console.error('Slider elements not found');
             return;
         }
-        
-        console.log('Slider elements found, initializing...');
         
         // Clear existing content
         track.innerHTML = '';

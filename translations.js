@@ -26,7 +26,7 @@ const translations = {
         products: {
             title: "Our Hookah Categories",
             exclusive: "Exclusive Hookah",
-            exclusiveDesc: "Only blonde flavours",
+            exclusiveDesc: "Only Blonde flavours",
             darkMix: "Dark MIX Hookah",
             darkMixDesc: "Dark + Blonde flavours",
             luxury: "Luxury Hookah",
