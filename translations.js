@@ -195,7 +195,7 @@ const translations = {
         // About
         about: {
             title: "A TRIOOO Hookah-ról",
-            text1: "A TRIOOO (korábban Hookah Trio néven ismert) egy népszerű vvizipipa bár Marosvásárhelyen 2021 óta, amely különleges vizipipa ízeket és frissítő italokat kínál. Magas színvonalú szolgáltatást és kellemes környezetet biztosítunk, ahol vendégeink pihenhetnek és élvezhetik az egyedi vizipipa élményt.",
+            text1: "A TRIOOO (korábban Hookah Trio néven ismert) egy népszerű vizipipa bár Marosvásárhelyen 2021 óta, amely különleges vizipipa ízeket és frissítő italokat kínál. Magas színvonalú szolgáltatást és kellemes környezetet biztosítunk, ahol vendégeink pihenhetnek és élvezhetik az egyedi vizipipa élményt.",
             text2: "Instagram és Facebook oldalainkon keresztül megosztjuk legújabb akcióinkat és eseményeinket, amelyek a helyi pipázó közösséget vonzzák. Kövesd te is!",
             happyCustomers: "Elégedett Vendégek",
             premiumFlavours: "Prémium Íz",
