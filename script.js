@@ -1,5 +1,7 @@
 // Initialize Supabase client
 let supabaseClient = null;
+// Cache opening hours data for re-rendering on language change
+window.openingHoursCache = null;
 
 function initializeSupabase() {
     if (typeof supabase !== 'undefined' && SUPABASE_CONFIG && SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey) {
@@ -48,6 +50,17 @@ function isCurrentlyOpen(openingTime, closingTime) {
     }
 }
 
+// Translate day name based on current language
+function translateDayName(dayName) {
+    if (!dayName) return dayName;
+    const lang = localStorage.getItem('language') || 'en';
+    if (typeof getTranslation === 'function') {
+        const translated = getTranslation(`openingHours.days.${dayName}`, lang);
+        return translated || dayName;
+    }
+    return dayName;
+}
+
 // Update opening hours dropdown in menubar
 function updateOpeningHoursDropdown(allData) {
     const dropdownContent = document.getElementById('openingHoursDropdownContent');
@@ -82,8 +95,9 @@ function updateOpeningHoursDropdown(allData) {
     sortedData.forEach(record => {
         const openingTime = formatTime(record.opening_time);
         const closingTime = formatTime(record.closing_time);
+        const dayLabel = translateDayName(record.day);
         html += `<div class="hours-item">
-            <span class="hours-day">${record.day}</span>
+            <span class="hours-day">${dayLabel}</span>
             <span class="hours-time">${openingTime} - ${closingTime}</span>
         </div>`;
     });
@@ -124,8 +138,9 @@ function displayAllOpeningHours(allData) {
     sortedData.forEach(record => {
         const openingTime = formatTime(record.opening_time);
         const closingTime = formatTime(record.closing_time);
+        const dayLabel = translateDayName(record.day);
         html += `<div class="hours-item">
-            <span class="hours-day">${record.day}</span>
+            <span class="hours-day">${dayLabel}</span>
             <span class="hours-time">${openingTime} - ${closingTime}</span>
         </div>`;
     });
@@ -206,6 +221,7 @@ async function loadOpeningHours() {
         
         // Ensure we always have an array to pass to displayAllOpeningHours
         const hoursData = allData || [];
+        window.openingHoursCache = hoursData;
 
         // Fetch opening hours for current day - get the whole record
         const { data, error } = await supabaseClient
@@ -260,7 +276,7 @@ async function loadOpeningHours() {
                 const today = new Date();
                 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
                 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                const currentDayName = days[today.getDay()];
+                const currentDayName = translateDayName(days[today.getDay()]);
                 const monthName = months[today.getMonth()];
                 const day = today.getDate();
                 openingHoursDateElement.textContent = `${currentDayName}, ${monthName} ${day}`;

@@ -85,6 +85,16 @@ function updateTranslations(lang) {
             openingHoursElement.textContent = closedMessage;
         }
     }
+
+    // Re-render opening hours lists with translated day names
+    if (window.openingHoursCache) {
+        if (typeof updateOpeningHoursDropdown === 'function') {
+            updateOpeningHoursDropdown(window.openingHoursCache);
+        }
+        if (typeof displayAllOpeningHours === 'function') {
+            displayAllOpeningHours(window.openingHoursCache);
+        }
+    }
 }
 
 // Initialize language on page load

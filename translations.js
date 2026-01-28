@@ -68,7 +68,16 @@ const translations = {
         // Opening Hours
         openingHours: {
             openTill: "Open till:",
-            closedMessage: "Closed! Check our opening hours:"
+            closedMessage: "Closed! Check our opening hours:",
+            days: {
+                Monday: "Monday",
+                Tuesday: "Tuesday",
+                Wednesday: "Wednesday",
+                Thursday: "Thursday",
+                Friday: "Friday",
+                Saturday: "Saturday",
+                Sunday: "Sunday"
+            }
         },
         // Closed Popup
         closedPopup: {
@@ -145,7 +154,16 @@ const translations = {
         // Opening Hours
         openingHours: {
             openTill: "Deschis până la:",
-            closedMessage: "Închis! Verifică programul nostru:"
+            closedMessage: "Închis! Verifică programul nostru:",
+            days: {
+                Monday: "Luni",
+                Tuesday: "Marți",
+                Wednesday: "Miercuri",
+                Thursday: "Joi",
+                Friday: "Vineri",
+                Saturday: "Sâmbătă",
+                Sunday: "Duminică"
+            }
         },
         // Closed Popup
         closedPopup: {
@@ -165,16 +183,16 @@ const translations = {
         },
         // Hero Section
         hero: {
-            title: "A Legjobb Vizipipa Élmény",
-            subtitle: "Hagyd kint a kölvilágot, és add át magad az élménynek! Világszinvonalú vizipipa élmény!",
+            title: "Ahol a minőség nem ismer határt.",
+            subtitle: "Hagyd kint a külvilágot, és add át magad az élménynek!",
             reserve: "Asztalfoglalás",
             contactUs: "Lépjünk kapcsolatba"
         },
         // Features
         features: {
-            premium: "Prémium Minőség",
-            elegant: "Elegáns Design",
-            service: "Kiváló Szolgáltatás"
+            premium: "Világszinvonalú vizipipa élmény",
+            elegant: "Diszkrét környezet",
+            service: "Kifogástalan vendéglátás"
         },
         // Products
         products: {
@@ -222,7 +240,16 @@ const translations = {
         // Opening Hours
         openingHours: {
             openTill: "Nyitva:",
-            closedMessage: "Zárva! Nézd meg a nyitvatartásunkat:"
+            closedMessage: "Zárva! Nézd meg a nyitvatartásunkat:",
+            days: {
+                Monday: "Hétfő",
+                Tuesday: "Kedd",
+                Wednesday: "Szerda",
+                Thursday: "Csütörtök",
+                Friday: "Péntek",
+                Saturday: "Szombat",
+                Sunday: "Vasárnap"
+            }
         },
         // Closed Popup
         closedPopup: {

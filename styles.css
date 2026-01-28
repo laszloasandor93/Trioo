@@ -416,9 +416,10 @@ body {
 
 .hero-subtitle {
     font-size: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
     font-weight: 300;
 }
+
 
 .hero-buttons {
     display: flex;
@@ -1303,7 +1304,9 @@ body {
 
     .hero-subtitle {
         font-size: 1.2rem;
+        margin-bottom: 1.5rem;
     }
+
 
     .btn {
         padding: 1rem 2rem;
@@ -1350,7 +1353,9 @@ body {
 
     .hero-subtitle {
         font-size: 1.5rem;
+        margin-bottom: 2rem;
     }
+
 
     .section-title {
         font-size: 2.5rem;
