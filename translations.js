@@ -165,10 +165,10 @@ const translations = {
         },
         // Hero Section
         hero: {
-            title: "Legjobb Vizipipa Élmény",
-            subtitle: "Fedezd fel a vizipipaa művészetét",
-            reserve: "Foglalás",
-            contactUs: "Lépj kapcsolatba"
+            title: "A Legjobb Vizipipa Élmény",
+            subtitle: "Hagyd kint a kölvilágot, és add át magad az élménynek! Világszinvonalú vizipipa élmény!",
+            reserve: "Asztalfoglalás",
+            contactUs: "Lépjünk kapcsolatba"
         },
         // Features
         features: {
