@@ -98,16 +98,16 @@ const translations = {
         },
         // Hero Section
         hero: {
-            title: "Cea mai bună experiență de narghilea",
-            subtitle: "Descoperă arta narghilelei",
+            title: "Unde calitatea nu cunoaște limite",
+            subtitle: "Izolați-vă de lumea exterioară și scufundați-vă în experiența perfectă.",
             reserve: "Rezervă",
             contactUs: "Contactează-ne"
         },
         // Features
         features: {
-            premium: "Calitate Premium",
-            elegant: "Design Elegant",
-            service: "Servicii de Calitate"
+            premium: "Experiență de narghilea la nivel mondial",
+            elegant: "Ambient discret",
+            service: "Ospitalitate ireproșabilă"
         },
         // Products
         products: {
@@ -128,15 +128,15 @@ const translations = {
         // About
         about: {
             title: "Despre noi",
-            text1: "TRIOOO (cunoscut anterior ca Hookah Trio) este un bar de narghilea popular în Târgu Mureș din 2021, oferind arome speciale de narghilea și băuturi răcoritoare. Oferim servicii de înaltă calitate și un mediu plăcut unde oaspeții noștri se pot relaxa și bucura de experiența unică de narghilea.",
-            text2: "Prin paginile noastre de Instagram și Facebook, împărtășim ultimele noastre promoții, arome noi și evenimente care atrag comunitatea locală. Urmărește-ne și tu!",
+            text1: "Din 2021, TRIOOO oferă o experiență de narghilea definită prin calitate și atenție la detalii în Târgu Mureș. Ne bazăm pe standarde stricte de igienă și utilizăm mărci recunoscute la nivel internațional, precum Maklaud, Moze sau Kaloud.",
+            text2: "Vă așteptăm într-un cadru discret, ideal pentru relaxare, unde confortul dumneavoastră este prioritatea noastră principală.",
             happyCustomers: "Clienți Mulțumiți",
             premiumFlavours: "Arome Premium",
             yearsExperience: "Ani de Experiență"
         },
         // Reservation
         reservation: {
-            title: "Rezervare",
+            title: "Rezervare online",
             poweredBy: "Powered by - meniudigital.ro"
         },
         // Contact
@@ -150,7 +150,7 @@ const translations = {
         },
         // Footer
         footer: {
-            tagline: "Experiență premium de narghilea din 2021",
+            tagline: "Experiență de narghilea la nivel mondial din 2021",
             quickLinks: "Link-uri Rapide"
         },
         // Opening Hours
@@ -185,7 +185,7 @@ const translations = {
         },
         // Hero Section
         hero: {
-            title: "Ahol a minőség nem ismer határt.",
+            title: "Ahol a minőség nem ismer határt",
             subtitle: "Zárja ki a külvilágot, és merüljön el a tökéletes élményben.",
             reserve: "Asztalfoglalás",
             contactUs: "Lépjen velünk kapcsolatba"
