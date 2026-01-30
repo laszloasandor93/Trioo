@@ -93,7 +93,7 @@ const translations = {
             home: "Acasă",
             products: "Produse",
             gallery: "Galerie",
-            about: "Despre",
+            about: "Despre noi",
             contact: "Contact"
         },
         // Hero Section
