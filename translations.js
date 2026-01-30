@@ -59,7 +59,7 @@ const translations = {
             email: "Email",
             address: "Address",
             followUs: "Follow Us",
-            review: "If you enjoyed your time with us, don't forget to leave a review on google maps."
+            review: "If you enjoyed your time with us, don't forget to leave a review on Google Maps."
         },
         // Footer
         footer: {
@@ -146,7 +146,7 @@ const translations = {
             email: "Email",
             address: "Adresă",
             followUs: "Urmărește-ne",
-            review: "Dacă v-a plăcut la noi, nu uitați să lăsați o recenzie pe google maps."
+            review: "Dacă v-a plăcut la noi, nu uitați să lăsați o recenzie pe Google Maps."
         },
         // Footer
         footer: {
@@ -192,7 +192,7 @@ const translations = {
         },
         // Features
         features: {
-            premium: "Világszínvonalú vízipipa-élmény 2021 óta",
+            premium: "Világszínvonalú vízipipa-élmény",
             elegant: "Diszkrét környezet",
             service: "Kifogástalan vendéglátás"
         },
@@ -233,12 +233,12 @@ const translations = {
             email: "Email",
             address: "Cím",
             followUs: "Kövess minket",
-            review: "Ha jól érezte magát nálunk, ne felejtsen el hagyni egy értékelést a google maps-en."
+            review: "Ha jól érezte magát nálunk, ne felejtsen el hagyni egy értékelést a Google Maps-en."
         },
         // Footer
         footer: {
             tagline: "Világszínvonalú vízipipa-élmény 2021 óta",
-            quickLinks: "Linkek"
+            quickLinks: "Gyorselérés"
         },
         // Opening Hours
         openingHours: {
