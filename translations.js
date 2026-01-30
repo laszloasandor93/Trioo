@@ -11,16 +11,16 @@ const translations = {
         },
         // Hero Section
         hero: {
-            title: "Best Hookah Experience",
-            subtitle: "Discover the art of Hookah",
+            title: "Where quality knows no compromise",
+            subtitle: "Escape the noise and lose yourself in the perfect experience.",
             reserve: "Reserve",
             contactUs: "Contact Us"
         },
         // Features
         features: {
-            premium: "Premium Quality",
-            elegant: "Elegant Design",
-            service: "High Quality Service"
+            premium: "World-class hookah experience",
+            elegant: "Discreet ambiance",
+            service: "Exceptional hospitality"
         },
         // Products
         products: {
@@ -41,15 +41,15 @@ const translations = {
         // About
         about: {
             title: "About TRIOOO Hookah",
-            text1: "TRIOOO (originally known as Hookah Trio) has been a popular hookah bar in Târgu Mureș since 2021, offering special hookah flavors and refreshing drinks. We provide high-quality service and a pleasant environment where our guests can relax and enjoy the unique hookah experience.",
-            text2: "Through our Instagram and Facebook pages, we share our latest promotions, new flavors, and events that attract the local smoking community. Follow us too!",
+            text1: "Since 2021, TRIOOO has been a distinguished representative of hookah culture in Târgu Mureș, in the heart of Mureș County, where world-class quality meets impeccable hygiene. We exclusively use globally renowned tobacco brands and industry-leading equipment—such as Maklaud and Moze—to ensure our guests a perfect escape within a discreetly exclusive setting.",
+            text2: "We invite you to discover a world tailored to the most discerning tastes, where every detail is designed for your comfort.",
             happyCustomers: "Happy Customers",
             premiumFlavours: "Premium Flavours",
             yearsExperience: "Years Experience"
         },
         // Reservation
         reservation: {
-            title: "Reservation",
+            title: "Reservation online (RO)",
             poweredBy: "Powered by - meniudigital.ro"
         },
         // Contact
@@ -63,7 +63,7 @@ const translations = {
         },
         // Footer
         footer: {
-            tagline: "Premium hookah experience since 2021",
+            tagline: "World-class hookah experience since 2021",
             quickLinks: "Quick Links"
         },
         // Opening Hours
@@ -99,7 +99,7 @@ const translations = {
         // Hero Section
         hero: {
             title: "Unde calitatea nu cunoaște limite",
-            subtitle: "Izolați-vă de lumea exterioară și scufundați-vă în experiența perfectă.",
+            subtitle: "Unde calitatea nu cunoaște limite. Uită de agitație și relaxează-te într-o atmosferă exotică și rafinată.",
             reserve: "Rezervă",
             contactUs: "Contactează-ne"
         },
