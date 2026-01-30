@@ -26,11 +26,11 @@ const translations = {
         products: {
             title: "Our Hookah Categories",
             exclusive: "Exclusive Hookah",
-            exclusiveDesc: "Only Blonde flavours",
+            exclusiveDesc: "100% Blonde Leaf",
             darkMix: "Dark MIX Hookah",
-            darkMixDesc: "Dark + Blonde flavours",
+            darkMixDesc: "50% Blonde + 50% Dark Leaf",
             luxury: "Luxury Hookah",
-            luxuryDesc: "Only Dark flavours"
+            luxuryDesc: "100% Dark Leaf"
         },
         // Gallery
         gallery: {
@@ -112,11 +112,11 @@ const translations = {
         products: {
             title: "Categoriile noastre de narghilea",
             exclusive: "Narghilea Exclusivă",
-            exclusiveDesc: "Doar arome Blonde",
+            exclusiveDesc: "100% Blonde Leaf",
             darkMix: "Narghilea Dark MIX",
-            darkMixDesc: "Arome Dark + Blonde",
+            darkMixDesc: "50% Blonde + 50% Dark Leaf",
             luxury: "Narghilea Luxury",
-            luxuryDesc: "Doar arome Dark"
+            luxuryDesc: "100% Dark Leaf"
         },
         // Gallery
         gallery: {
@@ -184,9 +184,9 @@ const translations = {
         // Hero Section
         hero: {
             title: "Ahol a minőség nem ismer határt.",
-            subtitle: "Hagyd kint a külvilágot, és add át magad az élménynek!",
+            subtitle: "Zárja ki a külvilágot, és merüljön el a tökéletes élményben.",
             reserve: "Asztalfoglalás",
-            contactUs: "Lépjünk kapcsolatba"
+            contactUs: "Lépjen velünk kapcsolatba"
         },
         // Features
         features: {
@@ -198,11 +198,11 @@ const translations = {
         products: {
             title: "Vizipipa Kategóriáink",
             exclusive: "Exkluzív Vizipipa",
-            exclusiveDesc: "Csak Blond aroma",
+            exclusiveDesc: "100% Blonde Leaf",
             darkMix: "Dark MIX Vizipipa",
-            darkMixDesc: "Dark + Blond aroma",
+            darkMixDesc: "50% Blonde + 50% Dark Leaf",
             luxury: "Luxury Vizipipa",
-            luxuryDesc: "Csak Dark aroma"
+            luxuryDesc: "100% Dark Leaf"
         },
         // Gallery
         gallery: {
@@ -212,7 +212,7 @@ const translations = {
         },
         // About
         about: {
-            title: "A TRIOOO Hookah-ról",
+            title: "Rólunk röviden",
             text1: "A TRIOOO (korábban Hookah Trio néven ismert) egy népszerű vizipipa bár Marosvásárhelyen 2021 óta, amely különleges vizipipa ízeket és frissítő italokat kínál. Magas színvonalú szolgáltatást és kellemes környezetet biztosítunk, ahol vendégeink pihenhetnek és élvezhetik az egyedi vizipipa élményt.",
             text2: "Instagram és Facebook oldalainkon keresztül megosztjuk legújabb akcióinkat és eseményeinket, amelyek a helyi pipázó közösséget vonzzák. Kövesd te is!",
             happyCustomers: "Elégedett Vendégek",
@@ -221,12 +221,12 @@ const translations = {
         },
         // Reservation
         reservation: {
-            title: "Foglalás",
+            title: "Online foglalás (RO)",
             poweredBy: "Powered by - meniudigital.ro"
         },
         // Contact
         contact: {
-            title: "Lépj kapcsolatba",
+            title: "Lépjen velünk kapcsolatba!",
             phone: "Telefon",
             email: "Email",
             address: "Cím",
@@ -255,7 +255,7 @@ const translations = {
         closedPopup: {
             sorry: "Elnézést!",
             closed: "Zárva vagyunk.",
-            contactUs: "Lépj kapcsolatba velünk: +40 733 456 654"
+            contactUs: "Lépjen velünk kapcsolatba: +40 733 456 654"
         }
     }
 };
