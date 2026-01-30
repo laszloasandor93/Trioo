@@ -64,7 +64,7 @@ const translations = {
         // Footer
         footer: {
             tagline: "World-class hookah experience since 2021",
-            quickLinks: "Quick Links"
+            quickLinks: "Links"
         },
         // Opening Hours
         openingHours: {
