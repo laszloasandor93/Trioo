@@ -99,7 +99,7 @@ const translations = {
         // Hero Section
         hero: {
             title: "Unde calitatea nu cunoaște limite",
-            subtitle: "Unde calitatea nu cunoaște limite. Uită de agitație și relaxează-te într-o atmosferă exotică și rafinată.",
+            subtitle: "Uită de agitație și relaxează-te într-o atmosferă exotică și rafinată.",
             reserve: "Rezervă",
             contactUs: "Contactează-ne"
         },
