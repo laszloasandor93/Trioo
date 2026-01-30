@@ -59,7 +59,7 @@ const translations = {
             email: "Email",
             address: "Address",
             followUs: "Follow Us",
-            review: "If you enjoyed your time with us, don't forget to leave a review."
+            review: "If you enjoyed your time with us, don't forget to leave a review on google maps."
         },
         // Footer
         footer: {
@@ -127,7 +127,7 @@ const translations = {
         },
         // About
         about: {
-            title: "Despre TRIOOO Hookah",
+            title: "Despre noi",
             text1: "TRIOOO (cunoscut anterior ca Hookah Trio) este un bar de narghilea popular în Târgu Mureș din 2021, oferind arome speciale de narghilea și băuturi răcoritoare. Oferim servicii de înaltă calitate și un mediu plăcut unde oaspeții noștri se pot relaxa și bucura de experiența unică de narghilea.",
             text2: "Prin paginile noastre de Instagram și Facebook, împărtășim ultimele noastre promoții, arome noi și evenimente care atrag comunitatea locală. Urmărește-ne și tu!",
             happyCustomers: "Clienți Mulțumiți",
@@ -146,7 +146,7 @@ const translations = {
             email: "Email",
             address: "Adresă",
             followUs: "Urmărește-ne",
-            review: "Dacă v-a plăcut la noi, nu uitați să lăsați o recenzie."
+            review: "Dacă v-a plăcut la noi, nu uitați să lăsați o recenzie pe google maps."
         },
         // Footer
         footer: {
@@ -192,18 +192,18 @@ const translations = {
         },
         // Features
         features: {
-            premium: "Világszinvonalú vizipipa élmény",
+            premium: "Világszínvonalú vízipipa-élmény 2021 óta",
             elegant: "Diszkrét környezet",
             service: "Kifogástalan vendéglátás"
         },
         // Products
         products: {
-            title: "Vizipipa Kategóriáink",
-            exclusive: "Exkluzív Vizipipa",
+            title: "Vízipipa Kategóriáink",
+            exclusive: "Exkluzív Vízipipa",
             exclusiveDesc: "100% Blonde Leaf",
-            darkMix: "Dark MIX Vizipipa",
+            darkMix: "Dark MIX Vízipipa",
             darkMixDesc: "50% Blonde Leaf + 50% Dark Leaf",
-            luxury: "Luxury Vizipipa",
+            luxury: "Luxury Vízipipa",
             luxuryDesc: "100% Dark Leaf"
         },
         // Gallery
@@ -215,8 +215,8 @@ const translations = {
         // About
         about: {
             title: "Rólunk röviden",
-            text1: "A TRIOOO (korábban Hookah Trio néven ismert) egy népszerű vizipipa bár Marosvásárhelyen 2021 óta, amely különleges vizipipa ízeket és frissítő italokat kínál. Magas színvonalú szolgáltatást és kellemes környezetet biztosítunk, ahol vendégeink pihenhetnek és élvezhetik az egyedi vizipipa élményt.",
-            text2: "Instagram és Facebook oldalainkon keresztül megosztjuk legújabb akcióinkat és eseményeinket, amelyek a helyi pipázó közösséget vonzzák. Kövesd te is!",
+            text1: "A TRIOOO 2021 óta színvonalas képviselője a vízipipázás kultúrájának Marosvásárhelyen, Maros megye szívében, ahol a világszínvonalú minőség kifogástalan higiéniával párosul. Kizárólag nemzetközileg elismert dohányokat és a szakma csúcsát képviselő eszközöket – mint a Maklaud és a Moze – használunk, hogy vendégeinknek tökéletes kikapcsolódást biztosítsunk egy diszkréten exkluzív környezetben.",
+            text2: "Meghívjuk Önt, hogy fedezze fel a legigényesebb ízlésekre szabott világunkat, ahol minden részlet az Ön kényelmét szolgálja.",
             happyCustomers: "Elégedett Vendégek",
             premiumFlavours: "Prémium Íz",
             yearsExperience: "Év Tapasztalat"
@@ -233,11 +233,11 @@ const translations = {
             email: "Email",
             address: "Cím",
             followUs: "Kövess minket",
-            review: "Ha jól érezte magát nálunk, ne felejtsen el hagyni egy értékelést."
+            review: "Ha jól érezte magát nálunk, ne felejtsen el hagyni egy értékelést a google maps-en."
         },
         // Footer
         footer: {
-            tagline: "Prémium vizipipa élmény 2021 óta",
+            tagline: "Világszínvonalú vízipipa-élmény 2021 óta",
             quickLinks: "Linkek"
         },
         // Opening Hours
