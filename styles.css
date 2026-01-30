@@ -1111,6 +1111,14 @@ body {
     font-size: 1.26rem !important;
 }
 
+.contact-review {
+    font-size: 1.26rem !important;
+    margin-top: 0.5rem;
+    align-self: flex-start;
+    width: 100%;
+    text-align: left;
+}
+
 .contact-item-follow {
     justify-content: center;
     text-align: center;

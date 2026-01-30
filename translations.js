@@ -28,7 +28,7 @@ const translations = {
             exclusive: "Exclusive Hookah",
             exclusiveDesc: "100% Blonde Leaf",
             darkMix: "Dark MIX Hookah",
-            darkMixDesc: "50% Blonde + 50% Dark Leaf",
+            darkMixDesc: "50% Blonde Leaf+ 50% Dark Leaf",
             luxury: "Luxury Hookah",
             luxuryDesc: "100% Dark Leaf"
         },
@@ -58,7 +58,8 @@ const translations = {
             phone: "Phone",
             email: "Email",
             address: "Address",
-            followUs: "Follow Us"
+            followUs: "Follow Us",
+            review: "If you enjoyed your time with us, don't forget to leave a review."
         },
         // Footer
         footer: {
@@ -114,7 +115,7 @@ const translations = {
             exclusive: "Narghilea Exclusivă",
             exclusiveDesc: "100% Blonde Leaf",
             darkMix: "Narghilea Dark MIX",
-            darkMixDesc: "50% Blonde + 50% Dark Leaf",
+            darkMixDesc: "50% Blonde Leaf+ 50% Dark Leaf",
             luxury: "Narghilea Luxury",
             luxuryDesc: "100% Dark Leaf"
         },
@@ -144,7 +145,8 @@ const translations = {
             phone: "Telefon",
             email: "Email",
             address: "Adresă",
-            followUs: "Urmărește-ne"
+            followUs: "Urmărește-ne",
+            review: "Dacă v-a plăcut la noi, nu uitați să lăsați o recenzie."
         },
         // Footer
         footer: {
@@ -200,7 +202,7 @@ const translations = {
             exclusive: "Exkluzív Vizipipa",
             exclusiveDesc: "100% Blonde Leaf",
             darkMix: "Dark MIX Vizipipa",
-            darkMixDesc: "50% Blonde + 50% Dark Leaf",
+            darkMixDesc: "50% Blonde Leaf + 50% Dark Leaf",
             luxury: "Luxury Vizipipa",
             luxuryDesc: "100% Dark Leaf"
         },
@@ -230,7 +232,8 @@ const translations = {
             phone: "Telefon",
             email: "Email",
             address: "Cím",
-            followUs: "Kövess minket"
+            followUs: "Kövess minket",
+            review: "Ha jól érezte magát nálunk, ne felejtsen el hagyni egy értékelést."
         },
         // Footer
         footer: {
